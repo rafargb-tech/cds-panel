@@ -125,10 +125,10 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
 @media(prefers-reduced-motion:reduce){.barfill,.dv-bar{transition:none}}
 </style></head><body><div class="wrap">
 <header><div class="brandrow">
-  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija</span></div></div>
+  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.2</span></span></div></div>
   <div class="updated" id="stamp">CARGANDO…</div></div>
   <h1>CDS <em>Soberanos</em></h1>
-  <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default — aquí está esa lectura, sin terminal.</p>
+  <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.</p>
 </header>
 <div class="stats" id="stats"></div>
 
@@ -323,7 +323,7 @@ function stats(){
 }
 function stamp(){
   const d=DATA[0]?.date?DATA[0].date+' 2026':'—';
-  $('#stamp').innerHTML=`${LIVE?'<span class="live">● EN VIVO</span>':'SNAPSHOT'} · <b>${d}</b><br>Fuente: worldgovernmentbonds.com`;
+  $('#stamp').innerHTML=`${LIVE?'<span class="live">● EN VIVO</span>':'SNAPSHOT'} · <b>${d}</b>`;
 }
 function renderAll(){ renderLadder(); renderDiverging(); renderScatter(); renderHistory(); }
 function boot(){ initScale(); stats(); stamp(); renderAll(); }
