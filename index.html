@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CDS Soberanos — Panel · SoyRGB</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -20,7 +17,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1
   background-image:radial-gradient(1200px 600px at 85% -10%, rgba(239,126,73,.06), transparent 60%);
   min-height:100vh;padding:0 0 64px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-header{padding:38px 0 26px;border-bottom:1px solid var(--line);margin-bottom:30px}
+header{padding:38px 0 22px;border-bottom:1px solid var(--line);margin-bottom:26px}
 .brandrow{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:13px}
 .mark{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
@@ -29,48 +26,48 @@ header{padding:38px 0 26px;border-bottom:1px solid var(--line);margin-bottom:30p
 .brand b{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.2px}
 .brand span{display:block;font-size:11px;color:var(--muted);letter-spacing:.3px}
 .updated{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right}
-.updated b{color:var(--org);font-weight:500}
-.updated .live{color:var(--green)}
-h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,5vw,46px);letter-spacing:-1.2px;
-  line-height:1.02;margin:26px 0 10px}
-h1 em{font-style:normal;background:linear-gradient(100deg,var(--org),var(--red));
-  -webkit-background-clip:text;background-clip:text;color:transparent}
+.updated b{color:var(--org);font-weight:500}.updated .live{color:var(--green)}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,5vw,46px);letter-spacing:-1.2px;line-height:1.02;margin:24px 0 10px}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--org),var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{color:var(--muted);font-size:15px;max-width:640px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0 12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0 4px}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
 .stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--faint);margin-bottom:7px}
 .stat .v{font-family:var(--mono);font-size:22px;font-weight:500;letter-spacing:-.5px}
 .stat .n{font-size:12px;color:var(--muted);margin-top:2px}
 .stat .v.small{font-size:15px;font-family:var(--disp);font-weight:600}
-.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:26px 0 14px}
+
+/* view switch */
+.viewswitch{display:flex;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:5px;width:max-content;margin:26px 0 6px}
+.vbtn{background:none;border:none;color:var(--muted);font-family:var(--disp);font-weight:500;font-size:13.5px;padding:8px 18px;border-radius:7px;cursor:pointer;transition:.15s}
+.vbtn:hover{color:var(--ink)}
+.vbtn.on{background:linear-gradient(135deg,var(--org),var(--red));color:#0a0a0c;font-weight:600}
+.view{display:none}.view.on{display:block}
+
+/* controls */
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0 14px}
 .search{flex:1;min-width:180px;position:relative}
-.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:9px;
-  color:var(--ink);font-family:var(--body);font-size:13.5px;padding:10px 12px 10px 34px;outline:none}
+.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:9px;color:var(--ink);font-family:var(--body);font-size:13.5px;padding:10px 12px 10px 34px;outline:none}
 .search input:focus{border-color:var(--org)}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.5}
 .segs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:4px}
-.seg{background:none;border:none;color:var(--muted);font-family:var(--body);font-size:12px;font-weight:500;
-  padding:6px 11px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:.15s}
+.seg{background:none;border:none;color:var(--muted);font-family:var(--body);font-size:12px;font-weight:500;padding:6px 11px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:.15s}
 .seg:hover{color:var(--ink)}
 .seg.on{background:var(--panel2);color:var(--ink)}
-.seg.on::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
-  background:linear-gradient(135deg,var(--org),var(--red));margin-right:6px;vertical-align:middle}
-.ladder-head{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;
-  padding:0 14px 9px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--faint);
-  border-bottom:1px solid var(--line)}
+.seg.on::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--org),var(--red));margin-right:6px;vertical-align:middle}
+
+/* ladder */
+.ladder-head{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;padding:0 14px 9px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--faint);border-bottom:1px solid var(--line)}
 .ladder-head .r{text-align:right}
-.row{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;align-items:center;
-  padding:12px 14px;border-bottom:1px solid var(--line);position:relative}
+.row{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);position:relative}
 .row:hover{background:var(--panel)}
 .rank{font-family:var(--mono);font-size:12px;color:var(--faint)}
 .ctry{display:flex;align-items:center;gap:10px;min-width:0}
 .flag{font-size:19px;line-height:1;flex-shrink:0}
 .cn{font-family:var(--disp);font-weight:500;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rate{font-family:var(--mono);font-size:10.5px;font-weight:500;padding:2px 6px;border-radius:4px;flex-shrink:0;border:1px solid transparent}
-.rate.g{color:var(--green);border-color:rgba(53,192,142,.3)}
-.rate.n{color:var(--muted);border-color:var(--line)}
-.rate.w{color:var(--org);border-color:rgba(239,126,73,.35)}
-.rate.d{color:var(--red);border-color:rgba(211,30,33,.4)}
+.rate.g{color:var(--green);border-color:rgba(53,192,142,.3)}.rate.n{color:var(--muted);border-color:var(--line)}
+.rate.w{color:var(--org);border-color:rgba(239,126,73,.35)}.rate.d{color:var(--red);border-color:rgba(211,30,33,.4)}
 .barcell{display:flex;flex-direction:column;gap:5px}
 .bartrack{height:7px;background:var(--panel2);border-radius:4px;overflow:hidden}
 .barfill{height:100%;border-radius:4px;width:0;transition:width .9s cubic-bezier(.2,.7,.2,1)}
@@ -80,172 +77,272 @@ h1 em{font-style:normal;background:linear-gradient(100deg,var(--org),var(--red))
 .var{font-family:var(--mono);font-size:12.5px;text-align:right}
 .var.up{color:var(--red)}.var.dn{color:var(--green)}.var.fl{color:var(--faint)}
 .tag-def{position:absolute;right:14px;top:6px;font-family:var(--mono);font-size:8.5px;letter-spacing:1px;color:var(--red);border:1px solid rgba(211,30,33,.4);border-radius:3px;padding:1px 4px}
-footer{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:26px}
+
+/* chart cards */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 20px 22px;margin-bottom:18px}
+.card-h{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.card-h h3{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:-.3px}
+.card-h p{font-size:12px;color:var(--muted);margin-top:3px;max-width:520px}
+
+/* diverging bars */
+.dv-row{display:grid;grid-template-columns:84px 1fr 58px;gap:10px;align-items:center;height:23px}
+.dv-lab{display:flex;align-items:center;gap:6px;font-size:12px;font-family:var(--mono);color:var(--muted);justify-self:end}
+.dv-lab .flag{font-size:14px}
+.dv-zone{position:relative;height:13px}
+.dv-zone::before{content:'';position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line)}
+.dv-bar{position:absolute;top:1px;height:11px;border-radius:3px;width:0;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.dv-val{font-family:var(--mono);font-size:11.5px;text-align:left}
+.dv-val.pos{color:var(--red)}.dv-val.neg{color:var(--green)}.dv-val.zero{color:var(--faint)}
+.dv-axis{display:grid;grid-template-columns:84px 1fr 58px;gap:10px;margin-top:8px;font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+.dv-axis .mid{text-align:center}
+
+/* scatter */
+.scatter svg{width:100%;height:auto;display:block}
+.qlabel{font-family:var(--body);font-size:10px;fill:var(--faint)}
+.dot-lab{font-family:var(--mono);font-size:8.5px;fill:var(--muted)}
+.axis-lab{font-family:var(--body);font-size:10.5px;fill:var(--muted)}
+
+/* history state */
+.hist-empty{text-align:center;padding:30px 20px;color:var(--muted)}
+.hist-empty .big{font-family:var(--disp);font-size:15px;color:var(--ink);margin-bottom:6px}
+.hist-empty .prog{font-family:var(--mono);font-size:12px;color:var(--org);margin-top:10px}
+
+footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:26px}
 .foot h4{font-family:var(--disp);font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--org);margin-bottom:9px}
 .foot p{font-size:12.5px;color:var(--muted);margin-bottom:7px}
 .foot .roadmap{display:flex;gap:7px;margin-top:6px;flex-wrap:wrap}
 .chip{font-size:11px;font-family:var(--mono);padding:4px 9px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
 .chip.done{color:var(--green);border-color:rgba(53,192,142,.3)}
 .legend{font-size:11.5px;color:var(--faint);margin-top:14px;line-height:1.7}
-.legend b{color:var(--green);font-weight:500}
-.legend i{color:var(--red);font-style:normal}
+.legend b{color:var(--green);font-weight:500}.legend i{color:var(--red);font-style:normal}
 @media(max-width:720px){
   .stats{grid-template-columns:repeat(2,1fr)}
   .ladder-head,.row{grid-template-columns:26px 1fr 84px 62px;gap:9px}
   .ladder-head .h-bar,.ladder-head .h-var6,.row .barcell,.row .var6{display:none}
+  .dv-row,.dv-axis{grid-template-columns:64px 1fr 50px}
   footer{grid-template-columns:1fr}
 }
-@media(prefers-reduced-motion:reduce){.barfill{transition:none}}
-</style>
-</head>
-<body>
-<div class="wrap">
-<header>
-  <div class="brandrow">
-    <div class="brand">
-      <div class="mark">R</div>
-      <div><b>SoyRGB</b><span>Panel de mercado · Renta fija</span></div>
-    </div>
-    <div class="updated" id="stamp">CARGANDO…</div>
-  </div>
+@media(prefers-reduced-motion:reduce){.barfill,.dv-bar{transition:none}}
+</style></head><body><div class="wrap">
+<header><div class="brandrow">
+  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija</span></div></div>
+  <div class="updated" id="stamp">CARGANDO…</div></div>
   <h1>CDS <em>Soberanos</em></h1>
-  <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos, ordenados por riesgo de crédito implícito. El mercado le pone precio a la probabilidad de default — aquí está esa lectura, sin terminal.</p>
+  <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default — aquí está esa lectura, sin terminal.</p>
 </header>
 <div class="stats" id="stats"></div>
-<div class="controls">
-  <div class="search">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b8b97" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input id="q" type="text" placeholder="Buscar país…" autocomplete="off">
-  </div>
-  <div class="segs" id="sorts">
-    <button class="seg on" data-s="cds">CDS 5Y</button>
-    <button class="seg" data-s="pd">PD</button>
-    <button class="seg" data-s="var1m">Var 1m</button>
-    <button class="seg" data-s="rating">Rating</button>
-    <button class="seg" data-s="az">A–Z</button>
-  </div>
-</div>
-<div class="ladder-head">
-  <div>#</div><div>País</div><div class="h-bar">Escala de riesgo</div>
-  <div class="r">CDS 5Y</div><div class="r">PD *</div><div class="r h-var6">Var 1m</div>
-</div>
-<div id="ladder"></div>
-<footer>
-  <div class="foot">
-    <h4>Metodología</h4>
-    <p>Spread del CDS a 5 años en puntos base (bps). <b>PD</b> = probabilidad de default implícita estimada a partir del spread. Var 1m / 6m = cambio del spread en el periodo.</p>
-    <p class="legend">Color de variación: <b>verde = spread a la baja</b> (mejora de crédito) · <i>rojo = spread al alza</i> (deterioro). Soberanos marcados <span style="color:var(--red);font-family:var(--mono);font-size:10px">DEFAULT</span> operan fuera de rango normal.</p>
-  </div>
-  <div class="foot">
-    <h4>Roadmap del panel</h4>
-    <p>Capa 1. Siguiente: single-names corporativos e índices (CDX / iTraxx) desde el tape público del DTCC.</p>
-    <div class="roadmap">
-      <span class="chip done">✓ Soberanos 5Y</span>
-      <span class="chip">Single-names</span>
-      <span class="chip">Índices CDX / iTraxx</span>
-      <span class="chip">Histórico</span>
-    </div>
-  </div>
-</footer>
-</div>
-<script>
-// Snapshot embebido: si el fetch del JSON falla (abierto en local, sin conexion),
-// el panel NUNCA queda vacio; usa esta foto como respaldo.
-const SNAPSHOT = [{"country": "Germany", "iso": "DE", "rating": "AAA", "cds5y": 6.9, "var1m": "-2.40%", "var6m": "-5.87%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Sweden", "iso": "SE", "rating": "AAA", "cds5y": 6.9, "var1m": "-8.00%", "var6m": "-17.27%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Switzerland", "iso": "CH", "rating": "AAA", "cds5y": 7.01, "var1m": "+3.70%", "var6m": "-12.59%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Netherlands", "iso": "NL", "rating": "AAA", "cds5y": 7.7, "var1m": "-1.41%", "var6m": "-0.39%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Denmark", "iso": "DK", "rating": "AAA", "cds5y": 7.77, "var1m": "-3.00%", "var6m": "-7.06%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Austria", "iso": "AT", "rating": "AA+", "cds5y": 10.88, "var1m": "-1.72%", "var6m": "-16.69%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Finland", "iso": "FI", "rating": "AA+", "cds5y": 10.91, "var1m": "-4.47%", "var6m": "-9.46%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Portugal", "iso": "PT", "rating": "A+", "cds5y": 13.93, "var1m": "-2.66%", "var6m": "-9.90%", "pd": "0.23%", "date": "11 Aug"}, {"country": "Ireland", "iso": "IE", "rating": "AA+", "cds5y": 14.15, "var1m": "-3.21%", "var6m": "-1.87%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Australia", "iso": "AU", "rating": "AAA", "cds5y": 14.53, "var1m": "+5.21%", "var6m": "+11.34%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Spain", "iso": "ES", "rating": "A+", "cds5y": 16.11, "var1m": "-0.06%", "var6m": "-2.95%", "pd": "0.27%", "date": "11 Aug"}, {"country": "Belgium", "iso": "BE", "rating": "AA-", "cds5y": 17.12, "var1m": "-2.00%", "var6m": "+15.05%", "pd": "0.29%", "date": "11 Aug"}, {"country": "United Kingdom", "iso": "GB", "rating": "AA", "cds5y": 18.0, "var1m": "-0.72%", "var6m": "+8.43%", "pd": "0.30%", "date": "11 Aug"}, {"country": "South Korea", "iso": "KR", "rating": "AA", "cds5y": 23.1, "var1m": "+2.12%", "var6m": "+6.11%", "pd": "0.39%", "date": "11 Aug"}, {"country": "Japan", "iso": "JP", "rating": "A+", "cds5y": 26.53, "var1m": "+0.11%", "var6m": "+4.16%", "pd": "0.44%", "date": "11 Aug"}, {"country": "Greece", "iso": "GR", "rating": "BBB", "cds5y": 29.15, "var1m": "-0.03%", "var6m": "+11.39%", "pd": "0.49%", "date": "11 Aug"}, {"country": "Italy", "iso": "IT", "rating": "BBB+", "cds5y": 29.65, "var1m": "+0.82%", "var6m": "+22.83%", "pd": "0.49%", "date": "11 Aug"}, {"country": "France", "iso": "FR", "rating": "A+", "cds5y": 31.11, "var1m": "+2.03%", "var6m": "+26.98%", "pd": "0.52%", "date": "10 Aug"}, {"country": "United States", "iso": "US", "rating": "AA+", "cds5y": 35.08, "var1m": "-8.17%", "var6m": "+13.09%", "pd": "0.58%", "date": "11 Aug"}, {"country": "China", "iso": "CN", "rating": "A+", "cds5y": 36.89, "var1m": "+0.49%", "var6m": "-11.30%", "pd": "0.61%", "date": "11 Aug"}, {"country": "Canada", "iso": "CA", "rating": "AAA", "cds5y": 39.6, "var1m": "0.00%", "var6m": "0.00%", "pd": "0.66%", "date": "11 Aug"}, {"country": "Israel", "iso": "IL", "rating": "A", "cds5y": 57.57, "var1m": "-1.71%", "var6m": "-19.36%", "pd": "0.96%", "date": "11 Aug"}, {"country": "Mexico", "iso": "MX", "rating": "BBB", "cds5y": 82.04, "var1m": "-3.33%", "var6m": "-5.37%", "pd": "1.37%", "date": "11 Aug"}, {"country": "India", "iso": "IN", "rating": "BBB", "cds5y": 87.67, "var1m": "0.00%", "var6m": "0.00%", "pd": "1.46%", "date": "11 Aug"}, {"country": "Indonesia", "iso": "ID", "rating": "BBB", "cds5y": 89.03, "var1m": "-2.69%", "var6m": "+14.94%", "pd": "1.48%", "date": "11 Aug"}, {"country": "South Africa", "iso": "ZA", "rating": "BB", "cds5y": 121.74, "var1m": "-1.74%", "var6m": "-11.24%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Brazil", "iso": "BR", "rating": "BB", "cds5y": 121.92, "var1m": "-1.60%", "var6m": "-4.67%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Turkey", "iso": "TR", "rating": "BB-", "cds5y": 226.42, "var1m": "-0.21%", "var6m": "+5.96%", "pd": "3.77%", "date": "11 Aug"}, {"country": "Egypt", "iso": "EG", "rating": "B", "cds5y": 272.16, "var1m": "-1.65%", "var6m": "-7.36%", "pd": "4.54%", "date": "11 Aug"}, {"country": "Russia", "iso": "RU", "rating": "NR", "cds5y": 13775.17, "var1m": "0.00%", "var6m": "0.00%", "pd": "100.00%", "date": "11 Aug"}];
-let DATA = SNAPSHOT, LIVE = false, FETCHED = null;
 
+<div class="viewswitch">
+  <button class="vbtn on" data-v="ranking">Ranking</button>
+  <button class="vbtn" data-v="charts">Gráficas</button>
+</div>
+
+<div class="view on" id="view-ranking">
+  <div class="controls">
+    <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b8b97" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Buscar país…" autocomplete="off"></div>
+    <div class="segs" id="sorts">
+      <button class="seg on" data-s="cds">CDS 5Y</button><button class="seg" data-s="pd">PD</button>
+      <button class="seg" data-s="var1m">Var 1m</button><button class="seg" data-s="rating">Rating</button><button class="seg" data-s="az">A–Z</button></div>
+  </div>
+  <div class="ladder-head"><div>#</div><div>País</div><div class="h-bar">Escala de riesgo</div>
+    <div class="r">CDS 5Y</div><div class="r">PD *</div><div class="r h-var6">Var 1m</div></div>
+  <div id="ladder"></div>
+</div>
+
+<div class="view" id="view-charts">
+  <div class="card">
+    <div class="card-h"><div><h3>Variación del spread</h3>
+      <p>Cuánto se movió el CDS de cada soberano. Verde = spread a la baja (mejora de crédito) · rojo = al alza (deterioro).</p></div>
+      <div class="segs" id="dvtoggle"><button class="seg on" data-m="var1m">1 mes</button><button class="seg" data-m="var6m">6 meses</button></div>
+    </div>
+    <div id="dvchart"></div>
+  </div>
+  <div class="card scatter">
+    <div class="card-h"><div><h3>Riesgo vs momentum</h3>
+      <p>Nivel de CDS (eje X) contra su variación a 1 mes (eje Y). Arriba-derecha = caro y deteriorando; abajo-izquierda = barato y mejorando.</p></div></div>
+    <div id="scatter"></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div><h3>Histórico diario</h3>
+      <p>Serie real que se acumula desde tu primer commit — 6 soberanos de mayor CDS.</p></div></div>
+    <div id="hist"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot"><h4>Metodología</h4>
+    <p>CDS a 5 años en puntos base. <b>PD</b> = probabilidad de default implícita del spread. Variación = cambio del spread en el periodo.</p>
+    <p class="legend">El histórico diario es dato real acumulado por el pipeline; no es una serie reconstruida.</p></div>
+  <div class="foot"><h4>Roadmap</h4>
+    <p>Capa 1. Siguiente: single-names e índices (CDX / iTraxx) desde el tape del DTCC.</p>
+    <div class="roadmap"><span class="chip done">✓ Soberanos 5Y</span><span class="chip done">✓ Gráficas</span><span class="chip">Single-names</span><span class="chip">Índices CDX / iTraxx</span></div></div>
+</footer>
+</div><script>
+const SNAPSHOT = [{"country": "Germany", "iso": "DE", "rating": "AAA", "cds5y": 6.9, "var1m": "-2.40%", "var6m": "-5.87%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Sweden", "iso": "SE", "rating": "AAA", "cds5y": 6.9, "var1m": "-8.00%", "var6m": "-17.27%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Switzerland", "iso": "CH", "rating": "AAA", "cds5y": 7.01, "var1m": "+3.70%", "var6m": "-12.59%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Netherlands", "iso": "NL", "rating": "AAA", "cds5y": 7.7, "var1m": "-1.41%", "var6m": "-0.39%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Denmark", "iso": "DK", "rating": "AAA", "cds5y": 7.77, "var1m": "-3.00%", "var6m": "-7.06%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Austria", "iso": "AT", "rating": "AA+", "cds5y": 10.88, "var1m": "-1.72%", "var6m": "-16.69%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Finland", "iso": "FI", "rating": "AA+", "cds5y": 10.91, "var1m": "-4.47%", "var6m": "-9.46%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Portugal", "iso": "PT", "rating": "A+", "cds5y": 13.93, "var1m": "-2.66%", "var6m": "-9.90%", "pd": "0.23%", "date": "11 Aug"}, {"country": "Ireland", "iso": "IE", "rating": "AA+", "cds5y": 14.15, "var1m": "-3.21%", "var6m": "-1.87%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Australia", "iso": "AU", "rating": "AAA", "cds5y": 14.53, "var1m": "+5.21%", "var6m": "+11.34%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Spain", "iso": "ES", "rating": "A+", "cds5y": 16.11, "var1m": "-0.06%", "var6m": "-2.95%", "pd": "0.27%", "date": "11 Aug"}, {"country": "Belgium", "iso": "BE", "rating": "AA-", "cds5y": 17.12, "var1m": "-2.00%", "var6m": "+15.05%", "pd": "0.29%", "date": "11 Aug"}, {"country": "United Kingdom", "iso": "GB", "rating": "AA", "cds5y": 18.0, "var1m": "-0.72%", "var6m": "+8.43%", "pd": "0.30%", "date": "11 Aug"}, {"country": "South Korea", "iso": "KR", "rating": "AA", "cds5y": 23.1, "var1m": "+2.12%", "var6m": "+6.11%", "pd": "0.39%", "date": "11 Aug"}, {"country": "Japan", "iso": "JP", "rating": "A+", "cds5y": 26.53, "var1m": "+0.11%", "var6m": "+4.16%", "pd": "0.44%", "date": "11 Aug"}, {"country": "Greece", "iso": "GR", "rating": "BBB", "cds5y": 29.15, "var1m": "-0.03%", "var6m": "+11.39%", "pd": "0.49%", "date": "11 Aug"}, {"country": "Italy", "iso": "IT", "rating": "BBB+", "cds5y": 29.65, "var1m": "+0.82%", "var6m": "+22.83%", "pd": "0.49%", "date": "11 Aug"}, {"country": "France", "iso": "FR", "rating": "A+", "cds5y": 31.11, "var1m": "+2.03%", "var6m": "+26.98%", "pd": "0.52%", "date": "10 Aug"}, {"country": "United States", "iso": "US", "rating": "AA+", "cds5y": 35.08, "var1m": "-8.17%", "var6m": "+13.09%", "pd": "0.58%", "date": "11 Aug"}, {"country": "China", "iso": "CN", "rating": "A+", "cds5y": 36.89, "var1m": "+0.49%", "var6m": "-11.30%", "pd": "0.61%", "date": "11 Aug"}, {"country": "Canada", "iso": "CA", "rating": "AAA", "cds5y": 39.6, "var1m": "0.00%", "var6m": "0.00%", "pd": "0.66%", "date": "11 Aug"}, {"country": "Israel", "iso": "IL", "rating": "A", "cds5y": 57.57, "var1m": "-1.71%", "var6m": "-19.36%", "pd": "0.96%", "date": "11 Aug"}, {"country": "Mexico", "iso": "MX", "rating": "BBB", "cds5y": 82.04, "var1m": "-3.33%", "var6m": "-5.37%", "pd": "1.37%", "date": "11 Aug"}, {"country": "India", "iso": "IN", "rating": "BBB", "cds5y": 87.67, "var1m": "0.00%", "var6m": "0.00%", "pd": "1.46%", "date": "11 Aug"}, {"country": "Indonesia", "iso": "ID", "rating": "BBB", "cds5y": 89.03, "var1m": "-2.69%", "var6m": "+14.94%", "pd": "1.48%", "date": "11 Aug"}, {"country": "South Africa", "iso": "ZA", "rating": "BB", "cds5y": 121.74, "var1m": "-1.74%", "var6m": "-11.24%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Brazil", "iso": "BR", "rating": "BB", "cds5y": 121.92, "var1m": "-1.60%", "var6m": "-4.67%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Turkey", "iso": "TR", "rating": "BB-", "cds5y": 226.42, "var1m": "-0.21%", "var6m": "+5.96%", "pd": "3.77%", "date": "11 Aug"}, {"country": "Egypt", "iso": "EG", "rating": "B", "cds5y": 272.16, "var1m": "-1.65%", "var6m": "-7.36%", "pd": "4.54%", "date": "11 Aug"}, {"country": "Russia", "iso": "RU", "rating": "NR", "cds5y": 13775.17, "var1m": "0.00%", "var6m": "0.00%", "pd": "100.00%", "date": "11 Aug"}];
+let DATA = SNAPSHOT, HIST = null, LIVE = false;
 const $ = s => document.querySelector(s);
-let sortKey = 'cds', query = '';
-let lo=0, hi=1;
+let sortKey='cds', query='', dvMetric='var1m', lo=0, hi=1;
+
+const flag = iso => !iso ? String.fromCodePoint(127988) : iso.toUpperCase().replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt()));
+const numVar = v => parseFloat(String(v).replace('%','').replace('+',''))||0;
+const isDef = d => d.pd==='100.00%'||d.rating==='NR';
 
 function initScale(){
-  const normal = DATA.filter(d => d.pd !== '100.00%' && d.rating !== 'NR');
-  const logs = normal.map(d => Math.log10(d.cds5y));
-  lo = Math.min(...logs); hi = Math.max(...logs);
-}
-function barPct(d){
-  if(d.pd==='100.00%'||d.rating==='NR') return 100;
-  const t = (Math.log10(d.cds5y)-lo)/(hi-lo);
-  return 8 + t*92;
-}
-function barColor(d){
-  if(d.pd==='100.00%'||d.rating==='NR') return 'linear-gradient(90deg,#7a1416,#D31E21)';
-  const t = (Math.log10(d.cds5y)-lo)/(hi-lo);
-  const c1=[239,126,73], c2=[211,30,33], m=i=>Math.round(c1[i]+(c2[i]-c1[i])*t);
-  return `linear-gradient(90deg, rgba(239,126,73,.55), rgb(${m(0)},${m(1)},${m(2)}))`;
+  const n = DATA.filter(d=>!isDef(d)).map(d=>Math.log10(d.cds5y));
+  lo=Math.min(...n); hi=Math.max(...n);
 }
 function rateClass(r){
-  if(r==='NR') return 'd';
-  if(r.startsWith('AAA')||r.startsWith('AA')) return 'g';
-  if(r[0]==='A'||r.startsWith('BBB')) return 'n';
-  if(r.startsWith('BB')||r.startsWith('B')) return 'w';
+  if(r==='NR')return 'd';
+  if(r.startsWith('AAA')||r.startsWith('AA'))return 'g';
+  if(r[0]==='A'||r.startsWith('BBB'))return 'n';
+  if(r.startsWith('BB')||r.startsWith('B'))return 'w';
   return 'd';
 }
-const flag = iso => !iso ? '🏳️' : iso.toUpperCase().replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt()));
-const numVar = v => parseFloat(String(v).replace('%','').replace('+',''))||0;
-
-function sorted(){
-  let arr = DATA.filter(d => d.country.toLowerCase().includes(query.toLowerCase()));
-  const cmp = {
-    cds:(a,b)=>a.cds5y-b.cds5y,
-    pd:(a,b)=>parseFloat(a.pd)-parseFloat(b.pd),
-    var1m:(a,b)=>numVar(b.var1m)-numVar(a.var1m),
-    rating:(a,b)=>a.cds5y-b.cds5y,
-    az:(a,b)=>a.country.localeCompare(b.country)
-  }[sortKey];
-  return arr.sort(cmp);
+/* ---------- RANKING ---------- */
+function barPct(d){ if(isDef(d))return 100; return 8+((Math.log10(d.cds5y)-lo)/(hi-lo))*92; }
+function barColor(d){
+  if(isDef(d))return 'linear-gradient(90deg,#7a1416,#D31E21)';
+  const t=(Math.log10(d.cds5y)-lo)/(hi-lo),c1=[239,126,73],c2=[211,30,33],m=i=>Math.round(c1[i]+(c2[i]-c1[i])*t);
+  return `linear-gradient(90deg, rgba(239,126,73,.55), rgb(${m(0)},${m(1)},${m(2)}))`;
 }
-function render(){
-  const arr = sorted();
-  $('#ladder').innerHTML = arr.map((d,i)=>{
-    const vc = c => String(c).startsWith('-')?'dn':(String(c).startsWith('+')&&numVar(c)!==0?'up':'fl');
-    const def = (d.pd==='100.00%'||d.rating==='NR') ? '<span class="tag-def">DEFAULT</span>':'';
-    return `<div class="row">
-      <div class="rank">${String(i+1).padStart(2,'0')}</div>
+function sorted(){
+  let a=DATA.filter(d=>d.country.toLowerCase().includes(query.toLowerCase()));
+  const c={cds:(a,b)=>a.cds5y-b.cds5y,pd:(a,b)=>parseFloat(a.pd)-parseFloat(b.pd),
+    var1m:(a,b)=>numVar(b.var1m)-numVar(a.var1m),rating:(a,b)=>a.cds5y-b.cds5y,
+    az:(a,b)=>a.country.localeCompare(b.country)}[sortKey];
+  return a.sort(c);
+}
+function renderLadder(){
+  $('#ladder').innerHTML = sorted().map((d,i)=>{
+    const vc=c=>String(c).startsWith('-')?'dn':(String(c).startsWith('+')&&numVar(c)!==0?'up':'fl');
+    const def=isDef(d)?'<span class="tag-def">DEFAULT</span>':'';
+    return `<div class="row"><div class="rank">${String(i+1).padStart(2,'0')}</div>
       <div class="ctry"><span class="flag">${flag(d.iso)}</span><span class="cn">${d.country}</span>
-        <span class="rate ${rateClass(d.rating)}">${d.rating}</span></div>
+      <span class="rate ${rateClass(d.rating)}">${d.rating}</span></div>
       <div class="barcell"><div class="bartrack"><div class="barfill" data-w="${barPct(d)}" style="background:${barColor(d)}"></div></div></div>
       <div class="cds">${d.cds5y.toLocaleString('en',{maximumFractionDigits:2})}<small> bps</small></div>
-      <div class="pd">${d.pd}</div>
-      <div class="var var6 ${vc(d.var1m)}">${d.var1m}</div>${def}
-    </div>`;
+      <div class="pd">${d.pd}</div><div class="var var6 ${vc(d.var1m)}">${d.var1m}</div>${def}</div>`;
   }).join('');
-  requestAnimationFrame(()=>document.querySelectorAll('.barfill').forEach((el,i)=>{
-    setTimeout(()=>el.style.width=el.dataset.w+'%', i*14);
+  requestAnimationFrame(()=>document.querySelectorAll('#ladder .barfill').forEach((el,i)=>setTimeout(()=>el.style.width=el.dataset.w+'%',i*12)));
+}
+/* ---------- DIVERGING BARS ---------- */
+function renderDiverging(){
+  const arr=DATA.filter(d=>!isDef(d)).map(d=>({...d,val:numVar(d[dvMetric])})).sort((a,b)=>b.val-a.val);
+  const maxAbs=Math.max(...arr.map(d=>Math.abs(d.val)))||1;
+  $('#dvchart').innerHTML=arr.map(d=>{
+    const w=Math.abs(d.val)/maxAbs*50, pos=d.val>0, zero=d.val===0;
+    const col=pos?'var(--red)':'var(--green)';
+    const style=zero?'':(pos?`left:50%;width:${w}%;background:linear-gradient(90deg,rgba(211,30,33,.4),${col})`
+                            :`right:50%;width:${w}%;background:linear-gradient(270deg,rgba(53,192,142,.4),${col})`);
+    const cls=zero?'zero':(pos?'pos':'neg');
+    const sign=d.val>0?'+':'';
+    return `<div class="dv-row"><div class="dv-lab"><span class="flag">${flag(d.iso)}</span>${d.iso}</div>
+      <div class="dv-zone"><div class="dv-bar" data-w="${style}" style="${zero?'':'left:50%;width:0'}"></div></div>
+      <div class="dv-val ${cls}">${sign}${d.val.toFixed(2)}%</div></div>`;
+  }).join('')+
+  `<div class="dv-axis"><span></span><span class="mid">↤ mejora (spread ↓) · 0 · deterioro (spread ↑) ↦</span><span></span></div>`;
+  requestAnimationFrame(()=>document.querySelectorAll('#dvchart .dv-bar').forEach((el,i)=>{
+    const s=el.dataset.w; if(s) setTimeout(()=>el.setAttribute('style',s),i*10);
   }));
 }
+/* ---------- SCATTER: riesgo vs momentum ---------- */
+function renderScatter(){
+  const W=700,H=430,mL=52,mR=24,mT=28,mB=48,pw=W-mL-mR,ph=H-mT-mB;
+  const pts=DATA.filter(d=>!isDef(d)).map(d=>({...d,x:Math.log10(d.cds5y),y:numVar(d.var1m)}));
+  const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);
+  const xmin=Math.min(...xs)-0.05,xmax=Math.max(...xs)+0.05;
+  const ymax=Math.max(Math.abs(Math.min(...ys)),Math.abs(Math.max(...ys)))*1.15||1;
+  const X=v=>mL+(v-xmin)/(xmax-xmin)*pw, Y=v=>mT+ph/2-(v/ymax)*(ph/2);
+  const med=[...pts].sort((a,b)=>a.x-b.x)[Math.floor(pts.length/2)].x;
+  const xticks=[10,20,50,100,200].filter(t=>Math.log10(t)>=xmin&&Math.log10(t)<=xmax);
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  // quadrant guides
+  svg+=`<line x1="${mL}" y1="${Y(0)}" x2="${W-mR}" y2="${Y(0)}" stroke="#26262e" stroke-width="1"/>`;
+  svg+=`<line x1="${X(med)}" y1="${mT}" x2="${X(med)}" y2="${H-mB}" stroke="#26262e" stroke-width="1" stroke-dasharray="3 3"/>`;
+  // quadrant labels
+  svg+=`<text class="qlabel" x="${W-mR-4}" y="${mT+12}" text-anchor="end">caro · deteriorando</text>`;
+  svg+=`<text class="qlabel" x="${mL+4}" y="${H-mB-6}" text-anchor="start">barato · mejorando</text>`;
+  // x ticks
+  xticks.forEach(t=>{const x=X(Math.log10(t));svg+=`<text class="dot-lab" x="${x}" y="${H-mB+16}" text-anchor="middle">${t}</text>`;});
+  svg+=`<text class="axis-lab" x="${mL+pw/2}" y="${H-6}" text-anchor="middle">CDS 5Y (bps · escala log)</text>`;
+  // y ticks
+  [ymax,0,-ymax].forEach(v=>{svg+=`<text class="dot-lab" x="${mL-8}" y="${Y(v)+3}" text-anchor="end">${v>0?'+':''}${v.toFixed(0)}%</text>`;});
+  svg+=`<text class="axis-lab" transform="rotate(-90 14 ${mT+ph/2})" x="14" y="${mT+ph/2}" text-anchor="middle">Var 1m</text>`;
+  // dots
+  pts.forEach(p=>{
+    const col=p.y>0?'#D31E21':(p.y<0?'#35C08E':'#8b8b97');
+    svg+=`<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="4.5" fill="${col}" fill-opacity=".85"/>`;
+    svg+=`<text class="dot-lab" x="${X(p.x)+7}" y="${Y(p.y)+3}">${p.iso}</text>`;
+  });
+  svg+=`</svg>`;
+  $('#scatter').innerHTML=svg;
+}
+/* ---------- HISTORY (real, se acumula) ---------- */
+function renderHistory(){
+  const el=$('#hist');
+  const series=(HIST&&HIST.series)||{};
+  const maxPts=Math.max(0,...Object.values(series).map(a=>a.length));
+  if(maxPts<2){
+    el.innerHTML=`<div class="hist-empty"><div class="big">Historia en construcción</div>
+      <div>La fuente solo da la foto del día, así que la serie diaria se acumula desde tu primer commit.
+      Cada día hábil el pipeline añade un punto por país.</div>
+      <div class="prog">● ${maxPts} día registrado · las líneas aparecen con ≥2 días</div></div>`;
+    return;
+  }
+  // draw multi-line for the 6 highest-CDS tradeable countries
+  const pick=DATA.filter(d=>!isDef(d)).slice(-6).map(d=>d.iso);
+  const W=700,H=300,mL=46,mR=60,mT=16,mB=28,pw=W-mL-mR,ph=H-mT-mB;
+  const all=pick.flatMap(k=>(series[k]||[]).map(p=>p.v));
+  const vmin=Math.min(...all),vmax=Math.max(...all);
+  const dates=[...new Set(pick.flatMap(k=>(series[k]||[]).map(p=>p.d)))].sort();
+  const X=i=>mL+(dates.length<2?0:i/(dates.length-1)*pw);
+  const Y=v=>mT+ph-(v-vmin)/((vmax-vmin)||1)*ph;
+  const palette=['#EF7E49','#D31E21','#35C08E','#8b8b97','#c9a04a','#5b8def'];
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  pick.forEach((k,ci)=>{
+    const pts=(series[k]||[]);
+    const path=pts.map(p=>`${X(dates.indexOf(p.d))},${Y(p.v)}`).join(' ');
+    svg+=`<polyline points="${path}" fill="none" stroke="${palette[ci%6]}" stroke-width="2"/>`;
+    if(pts.length){const last=pts[pts.length-1];svg+=`<text class="dot-lab" x="${X(dates.indexOf(last.d))+6}" y="${Y(last.v)+3}" fill="${palette[ci%6]}">${k}</text>`;}
+  });
+  svg+=`</svg>`;
+  el.innerHTML=svg;
+}
+/* ---------- shared ---------- */
 function stats(){
-  const cds = DATA.map(d=>d.cds5y).sort((a,b)=>a-b);
-  const med = cds[Math.floor(cds.length/2)];
-  const safe = DATA.reduce((a,b)=>a.cds5y<b.cds5y?a:b);
-  const risk = DATA.filter(d=>d.rating!=='NR').reduce((a,b)=>a.cds5y>b.cds5y?a:b);
-  $('#ncount').textContent = DATA.length;
-  $('#stats').innerHTML = `
+  const cds=DATA.map(d=>d.cds5y).sort((a,b)=>a-b),med=cds[Math.floor(cds.length/2)];
+  const safe=DATA.reduce((a,b)=>a.cds5y<b.cds5y?a:b);
+  const risk=DATA.filter(d=>d.rating!=='NR').reduce((a,b)=>a.cds5y>b.cds5y?a:b);
+  $('#ncount').textContent=DATA.length;
+  $('#stats').innerHTML=`
     <div class="stat"><div class="k">Países</div><div class="v">${DATA.length}</div><div class="n">soberanos 5Y</div></div>
     <div class="stat"><div class="k">Mediana CDS</div><div class="v">${med.toFixed(1)}</div><div class="n">bps</div></div>
     <div class="stat"><div class="k">Más seguro</div><div class="v small">${flag(safe.iso)} ${safe.country}</div><div class="n">${safe.cds5y} bps</div></div>
     <div class="stat"><div class="k">Mayor riesgo *</div><div class="v small">${flag(risk.iso)} ${risk.country}</div><div class="n">${risk.cds5y.toLocaleString('en')} bps</div></div>`;
 }
 function stamp(){
-  const d = DATA[0]?.date ? DATA[0].date + ' 2026' : '—';
-  const tag = LIVE ? '<span class="live">● EN VIVO</span>' : 'SNAPSHOT';
-  $('#stamp').innerHTML = `${tag} · <b>${d}</b><br>Fuente: worldgovernmentbonds.com`;
+  const d=DATA[0]?.date?DATA[0].date+' 2026':'—';
+  $('#stamp').innerHTML=`${LIVE?'<span class="live">● EN VIVO</span>':'SNAPSHOT'} · <b>${d}</b><br>Fuente: worldgovernmentbonds.com`;
 }
-function boot(){ initScale(); stats(); stamp(); render(); }
+function renderAll(){ renderLadder(); renderDiverging(); renderScatter(); renderHistory(); }
+function boot(){ initScale(); stats(); stamp(); renderAll(); }
 
-// Intenta leer el JSON que commitea GitHub Actions (mismo dominio -> sin CORS).
-fetch('./sovereign_cds.json', {cache:'no-store'})
-  .then(r => r.ok ? r.json() : Promise.reject())
-  .then(j => { if(j && j.data && j.data.length){ DATA = j.data; LIVE = true; FETCHED = j.fetched_utc; } })
-  .catch(()=>{})   // se queda con el snapshot embebido
-  .finally(boot);
+Promise.all([
+  fetch('./sovereign_cds.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null),
+  fetch('./history.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)
+]).then(([j,h])=>{
+  if(j&&j.data&&j.data.length){DATA=j.data;LIVE=true;}
+  if(h&&h.series)HIST=h;
+}).finally(boot);
 
-$('#q').addEventListener('input', e=>{query=e.target.value; render();});
-$('#sorts').addEventListener('click', e=>{
-  const b=e.target.closest('.seg'); if(!b)return;
-  document.querySelectorAll('.seg').forEach(s=>s.classList.remove('on'));
-  b.classList.add('on'); sortKey=b.dataset.s; render();
-});
-</script>
-</body>
-</html>
+// listeners
+$('#q').addEventListener('input',e=>{query=e.target.value;renderLadder();});
+$('#sorts').addEventListener('click',e=>{const b=e.target.closest('.seg');if(!b)return;
+  document.querySelectorAll('#sorts .seg').forEach(s=>s.classList.remove('on'));b.classList.add('on');sortKey=b.dataset.s;renderLadder();});
+$('#dvtoggle').addEventListener('click',e=>{const b=e.target.closest('.seg');if(!b)return;
+  document.querySelectorAll('#dvtoggle .seg').forEach(s=>s.classList.remove('on'));b.classList.add('on');dvMetric=b.dataset.m;renderDiverging();});
+document.querySelector('.viewswitch').addEventListener('click',e=>{const b=e.target.closest('.vbtn');if(!b)return;
+  document.querySelectorAll('.vbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));$('#view-'+b.dataset.v).classList.add('on');});
+</script></body></html>
