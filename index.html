@@ -132,7 +132,7 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
 @media(prefers-reduced-motion:reduce){.barfill,.dv-bar{transition:none}}
 </style></head><body><div class="wrap">
 <header><div class="brandrow">
-  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.3</span></span></div></div>
+  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.3.1</span></span></div></div>
   <div class="updated" id="stamp">CARGANDO…</div></div>
   <h1>CDS <em>Soberanos</em></h1>
   <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.</p>
@@ -150,7 +150,7 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
       <input id="q" type="text" placeholder="Buscar país…" autocomplete="off"></div>
     <div class="segs" id="sorts">
       <button class="seg on" data-s="cds">CDS 5Y</button><button class="seg" data-s="pd">PD</button>
-      <button class="seg" data-s="var1m">Var 1m</button><button class="seg" data-s="rating">Rating</button><button class="seg" data-s="az">A–Z</button></div>
+      <button class="seg" data-s="var1m">Var 1m</button><button class="seg" data-s="var6m">Var 6m</button><button class="seg" data-s="rating">Rating</button><button class="seg" data-s="az">A–Z</button></div>
   </div>
   <div class="ladder-head"><div>#</div><div>País</div><div class="h-bar">Escala de riesgo</div>
     <div class="r">CDS 5Y</div><div class="r">PD *</div><div class="r h-var6">Var 1m</div><div class="r h-var6m">Var 6m</div></div>
@@ -218,7 +218,7 @@ function barColor(d){
 function sorted(){
   let a=DATA.filter(d=>d.country.toLowerCase().includes(query.toLowerCase()));
   const c={cds:(a,b)=>a.cds5y-b.cds5y,pd:(a,b)=>parseFloat(a.pd)-parseFloat(b.pd),
-    var1m:(a,b)=>numVar(b.var1m)-numVar(a.var1m),rating:(a,b)=>a.cds5y-b.cds5y,
+    var1m:(a,b)=>numVar(b.var1m)-numVar(a.var1m),var6m:(a,b)=>numVar(b.var6m)-numVar(a.var6m),rating:(a,b)=>a.cds5y-b.cds5y,
     az:(a,b)=>a.country.localeCompare(b.country)}[sortKey];
   return a.sort(c);
 }
