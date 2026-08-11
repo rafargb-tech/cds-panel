@@ -57,9 +57,9 @@ h1 em{font-style:normal;background:linear-gradient(100deg,var(--org),var(--red))
 .seg.on::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--org),var(--red));margin-right:6px;vertical-align:middle}
 
 /* ladder */
-.ladder-head{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;padding:0 14px 9px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--faint);border-bottom:1px solid var(--line)}
+.ladder-head{display:grid;grid-template-columns:38px 1fr 116px 82px 64px 64px 64px;gap:12px;padding:0 14px 9px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--faint);border-bottom:1px solid var(--line)}
 .ladder-head .r{text-align:right}
-.row{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);position:relative}
+.row{display:grid;grid-template-columns:38px 1fr 116px 82px 64px 64px 64px;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);position:relative}
 .row:hover{background:var(--panel)}
 .rank{font-family:var(--mono);font-size:12px;color:var(--faint)}
 .ctry{display:flex;align-items:center;gap:10px;min-width:0}
@@ -106,6 +106,13 @@ h1 em{font-style:normal;background:linear-gradient(100deg,var(--org),var(--red))
 .hist-empty{text-align:center;padding:30px 20px;color:var(--muted)}
 .hist-empty .big{font-family:var(--disp);font-size:15px;color:var(--ink);margin-bottom:6px}
 .hist-empty .prog{font-family:var(--mono);font-size:12px;color:var(--org);margin-top:10px}
+.histsel{background:var(--panel2);border:1px solid var(--line);color:var(--ink);font-family:var(--body);font-size:13px;padding:8px 11px;border-radius:8px;outline:none;cursor:pointer;max-width:200px}
+.histsel:focus{border-color:var(--org)}
+.hist-legend{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:2px 0 14px}
+.hist-legend>span{display:flex;align-items:center;gap:6px}
+.lg-obs,.lg-der{width:11px;height:11px;border-radius:50%;display:inline-block}
+.lg-obs{background:var(--org)}.lg-der{background:var(--bg);border:2px solid var(--org)}
+.lg-note{color:var(--faint);font-style:italic}
 
 footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:26px}
 .foot h4{font-family:var(--disp);font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--org);margin-bottom:9px}
@@ -118,14 +125,14 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
 @media(max-width:720px){
   .stats{grid-template-columns:repeat(2,1fr)}
   .ladder-head,.row{grid-template-columns:26px 1fr 84px 62px;gap:9px}
-  .ladder-head .h-bar,.ladder-head .h-var6,.row .barcell,.row .var6{display:none}
+  .ladder-head .h-bar,.ladder-head .h-var6,.ladder-head .h-var6m,.row .barcell,.row .var6,.row .var6mcell{display:none}
   .dv-row,.dv-axis{grid-template-columns:64px 1fr 50px}
   footer{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){.barfill,.dv-bar{transition:none}}
 </style></head><body><div class="wrap">
 <header><div class="brandrow">
-  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.2</span></span></div></div>
+  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.3</span></span></div></div>
   <div class="updated" id="stamp">CARGANDO…</div></div>
   <h1>CDS <em>Soberanos</em></h1>
   <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.</p>
@@ -146,7 +153,7 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
       <button class="seg" data-s="var1m">Var 1m</button><button class="seg" data-s="rating">Rating</button><button class="seg" data-s="az">A–Z</button></div>
   </div>
   <div class="ladder-head"><div>#</div><div>País</div><div class="h-bar">Escala de riesgo</div>
-    <div class="r">CDS 5Y</div><div class="r">PD *</div><div class="r h-var6">Var 1m</div></div>
+    <div class="r">CDS 5Y</div><div class="r">PD *</div><div class="r h-var6">Var 1m</div><div class="r h-var6m">Var 6m</div></div>
   <div id="ladder"></div>
 </div>
 
@@ -164,8 +171,10 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
     <div id="scatter"></div>
   </div>
   <div class="card">
-    <div class="card-h"><div><h3>Histórico diario</h3>
-      <p>Serie real que se acumula desde tu primer commit — 6 soberanos de mayor CDS.</p></div></div>
+    <div class="card-h"><div><h3>Histórico</h3>
+      <p>Tres puntos de control por país —hace 6m, hace 1m y hoy— reconstruidos del cambio reportado, más los observados que se acumulan cada día.</p></div>
+      <select id="histsel" class="histsel"></select></div>
+    <div class="hist-legend"><span><span class="lg-obs"></span> observado</span><span><span class="lg-der"></span> reconstruido</span><span class="lg-note">la línea entre puntos reconstruidos es interpolación, no ruta diaria</span></div>
     <div id="hist"></div>
   </div>
 </div>
@@ -222,7 +231,7 @@ function renderLadder(){
       <span class="rate ${rateClass(d.rating)}">${d.rating}</span></div>
       <div class="barcell"><div class="bartrack"><div class="barfill" data-w="${barPct(d)}" style="background:${barColor(d)}"></div></div></div>
       <div class="cds">${d.cds5y.toLocaleString('en',{maximumFractionDigits:2})}<small> bps</small></div>
-      <div class="pd">${d.pd}</div><div class="var var6 ${vc(d.var1m)}">${d.var1m}</div>${def}</div>`;
+      <div class="pd">${d.pd}</div><div class="var var6 ${vc(d.var1m)}">${d.var1m}</div><div class="var var6mcell ${vc(d.var6m)}">${d.var6m}</div>${def}</div>`;
   }).join('');
   requestAnimationFrame(()=>document.querySelectorAll('#ladder .barfill').forEach((el,i)=>setTimeout(()=>el.style.width=el.dataset.w+'%',i*12)));
 }
@@ -278,34 +287,44 @@ function renderScatter(){
   svg+=`</svg>`;
   $('#scatter').innerHTML=svg;
 }
-/* ---------- HISTORY (real, se acumula) ---------- */
+/* ---------- HISTORY: puntos de control reconstruidos + observados ---------- */
+let histCountry='MX';
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const shortDate=iso=>{const[y,m,d]=iso.split('-');return `${+d} ${MES[+m-1]}`;};
+function fillHistSelect(){
+  const sel=$('#histsel'); if(!sel||sel.dataset.done)return;
+  const series=(HIST&&HIST.series)||{};
+  const opts=[...DATA].filter(d=>series[d.iso]).sort((a,b)=>a.country.localeCompare(b.country));
+  if(!series[histCountry]&&opts.length) histCountry=opts[0].iso;
+  sel.innerHTML=opts.map(d=>`<option value="${d.iso}" ${d.iso===histCountry?'selected':''}>${flag(d.iso)} ${d.country}</option>`).join('');
+  sel.dataset.done='1';
+}
 function renderHistory(){
+  fillHistSelect();
   const el=$('#hist');
   const series=(HIST&&HIST.series)||{};
-  const maxPts=Math.max(0,...Object.values(series).map(a=>a.length));
-  if(maxPts<2){
-    el.innerHTML=`<div class="hist-empty"><div class="big">Historia en construcción</div>
-      <div>La fuente solo da la foto del día, así que la serie diaria se acumula desde tu primer commit.
-      Cada día hábil el pipeline añade un punto por país.</div>
-      <div class="prog">● ${maxPts} día registrado · las líneas aparecen con ≥2 días</div></div>`;
-    return;
-  }
-  // draw multi-line for the 6 highest-CDS tradeable countries
-  const pick=DATA.filter(d=>!isDef(d)).slice(-6).map(d=>d.iso);
-  const W=700,H=300,mL=46,mR=60,mT=16,mB=28,pw=W-mL-mR,ph=H-mT-mB;
-  const all=pick.flatMap(k=>(series[k]||[]).map(p=>p.v));
-  const vmin=Math.min(...all),vmax=Math.max(...all);
-  const dates=[...new Set(pick.flatMap(k=>(series[k]||[]).map(p=>p.d)))].sort();
-  const X=i=>mL+(dates.length<2?0:i/(dates.length-1)*pw);
-  const Y=v=>mT+ph-(v-vmin)/((vmax-vmin)||1)*ph;
-  const palette=['#EF7E49','#D31E21','#35C08E','#8b8b97','#c9a04a','#5b8def'];
+  const pts=(series[histCountry]||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));
+  if(pts.length<1){el.innerHTML=`<div class="hist-empty"><div class="big">Sin datos aún</div><div>Corre el pipeline para sembrar los puntos de control.</div></div>`;return;}
+  const W=700,H=300,mL=52,mR=28,mT=24,mB=34,pw=W-mL-mR,ph=H-mT-mB;
+  const ts=pts.map(p=>Date.parse(p.d));
+  const tmin=Math.min(...ts),tmax=Math.max(...ts);
+  const vs=pts.map(p=>p.v),vmin=Math.min(...vs),vmax=Math.max(...vs),pad=(vmax-vmin)*0.18||1;
+  const lo=vmin-pad,hi=vmax+pad;
+  const X=t=>mL+(tmax===tmin?pw/2:(t-tmin)/(tmax-tmin)*pw);
+  const Y=v=>mT+ph-(v-lo)/(hi-lo)*ph;
   let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-  pick.forEach((k,ci)=>{
-    const pts=(series[k]||[]);
-    const path=pts.map(p=>`${X(dates.indexOf(p.d))},${Y(p.v)}`).join(' ');
-    svg+=`<polyline points="${path}" fill="none" stroke="${palette[ci%6]}" stroke-width="2"/>`;
-    if(pts.length){const last=pts[pts.length-1];svg+=`<text class="dot-lab" x="${X(dates.indexOf(last.d))+6}" y="${Y(last.v)+3}" fill="${palette[ci%6]}">${k}</text>`;}
-  });
+  [vmin,(vmin+vmax)/2,vmax].forEach(v=>{const y=Y(v);
+    svg+=`<line x1="${mL}" y1="${y}" x2="${W-mR}" y2="${y}" stroke="#1f1f26" stroke-width="1"/>`;
+    svg+=`<text class="dot-lab" x="${mL-8}" y="${y+3}" text-anchor="end">${v.toFixed(1)}</text>`;});
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i],dash=(a.s==='der'&&b.s==='der')?'stroke-dasharray="5 4"':'';
+    svg+=`<line x1="${X(ts[i-1])}" y1="${Y(a.v)}" x2="${X(ts[i])}" y2="${Y(b.v)}" stroke="#EF7E49" stroke-width="2" ${dash}/>`;
+  }
+  pts.forEach((p,i)=>{const x=X(ts[i]),y=Y(p.v);
+    if(p.s==='der')svg+=`<circle cx="${x}" cy="${y}" r="4.5" fill="#0a0a0c" stroke="#EF7E49" stroke-width="2"/>`;
+    else svg+=`<circle cx="${x}" cy="${y}" r="4.5" fill="#EF7E49"/>`;
+    svg+=`<text class="dot-lab" x="${x}" y="${y-9}" text-anchor="middle" fill="#f4f2ef">${p.v}</text>`;
+    svg+=`<text class="dot-lab" x="${x}" y="${H-mB+16}" text-anchor="middle">${shortDate(p.d)}</text>`;});
   svg+=`</svg>`;
   el.innerHTML=svg;
 }
@@ -342,6 +361,7 @@ $('#sorts').addEventListener('click',e=>{const b=e.target.closest('.seg');if(!b)
   document.querySelectorAll('#sorts .seg').forEach(s=>s.classList.remove('on'));b.classList.add('on');sortKey=b.dataset.s;renderLadder();});
 $('#dvtoggle').addEventListener('click',e=>{const b=e.target.closest('.seg');if(!b)return;
   document.querySelectorAll('#dvtoggle .seg').forEach(s=>s.classList.remove('on'));b.classList.add('on');dvMetric=b.dataset.m;renderDiverging();});
+document.addEventListener('change',e=>{if(e.target.id==='histsel'){histCountry=e.target.value;renderHistory();}});
 document.querySelector('.viewswitch').addEventListener('click',e=>{const b=e.target.closest('.vbtn');if(!b)return;
   document.querySelectorAll('.vbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));$('#view-'+b.dataset.v).classList.add('on');});
