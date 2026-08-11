@@ -52,8 +52,29 @@ def parse(payload):
     out.sort(key=lambda x: x["cds5y"])
     return out
 
-def update_history(data, today_iso):
-    """Acumula un punto por pais por dia. Reejecutar el mismo dia reemplaza, no duplica."""
+import calendar
+
+def _minus_months(d, m):
+    y, mo = d.year, d.month - m
+    while mo <= 0:
+        mo += 12; y -= 1
+    day = min(d.day, calendar.monthrange(y, mo)[1])
+    return d.replace(year=y, month=mo, day=day)
+
+def _pct(s):
+    try:
+        return float(str(s).replace("%", "").replace("+", "").strip())
+    except ValueError:
+        return 0.0
+
+def update_history(data, today):
+    """
+    Acumula la serie por pais con dos tipos de punto:
+      s="obs" -> observado (nivel real del dia)
+      s="der" -> reconstruido a partir del cambio 1m/6m reportado por la fuente
+    Cada corrida siembra 3 puntos de control: hace 6m, hace 1m y hoy.
+    Precedencia: un observado NUNCA es pisado por un reconstruido.
+    """
     hist = {"updated_utc": "", "series": {}}
     if os.path.exists(HISTORY_FILE):
         try:
@@ -61,16 +82,36 @@ def update_history(data, today_iso):
             hist.setdefault("series", {})
         except Exception:
             pass
+
+    d0 = today
+    d1 = _minus_months(d0, 1)
+    d6 = _minus_months(d0, 6)
+
     for d in data:
         key = d["iso"] or d["country"]
-        pts = hist["series"].setdefault(key, [])
-        pts = [p for p in pts if p["d"] != today_iso]          # dedupe por fecha
-        pts.append({"d": today_iso, "v": d["cds5y"]})
-        pts.sort(key=lambda p: p["d"])
-        hist["series"][key] = pts[-400:]                       # cap ~18 meses
+        idx = {p["d"]: {**p, "s": p.get("s", "obs")} for p in hist["series"].get(key, [])}
+
+        def put(dt, val, s):
+            ds = dt.isoformat()
+            cur = idx.get(ds)
+            if cur is None or s == "obs" or cur.get("s") == "der":
+                idx[ds] = {"d": ds, "v": val, "s": s}
+
+        C = d["cds5y"]
+        put(d0, C, "obs")
+        v1, v6 = _pct(d["var1m"]), _pct(d["var6m"])
+        if 1 + v1 / 100 > 0:
+            put(d1, round(C / (1 + v1 / 100), 2), "der")
+        if 1 + v6 / 100 > 0:
+            put(d6, round(C / (1 + v6 / 100), 2), "der")
+
+        pts = sorted(idx.values(), key=lambda p: p["d"])[-500:]
+        hist["series"][key] = pts
+
     hist["updated_utc"] = datetime.now(timezone.utc).isoformat()
     json.dump(hist, open(HISTORY_FILE, "w", encoding="utf-8"), ensure_ascii=False)
     return sum(len(v) for v in hist["series"].values())
+
 
 def main():
     data = parse(fetch())
@@ -80,7 +121,7 @@ def main():
     with open("sovereign_cds.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(data[0].keys()))
         w.writeheader(); w.writerows(data)
-    total = update_history(data, now.strftime("%Y-%m-%d"))
+    total = update_history(data, now.date())
     print(f"OK - {len(data)} soberanos - {now.isoformat()} - historia: {total} puntos")
 
 if __name__ == "__main__":
