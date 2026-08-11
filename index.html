@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDS Soberanos — Panel · SoyRGB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0c; --panel:#131317; --panel2:#1a1a20; --line:#26262e;
+  --ink:#f4f2ef; --muted:#8b8b97; --faint:#5c5c67;
+  --org:#EF7E49; --red:#D31E21; --green:#35C08E;
+  --disp:'Space Grotesk',sans-serif; --mono:'JetBrains Mono',monospace; --body:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5;
+  background-image:radial-gradient(1200px 600px at 85% -10%, rgba(239,126,73,.06), transparent 60%);
+  min-height:100vh;padding:0 0 64px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{padding:38px 0 26px;border-bottom:1px solid var(--line);margin-bottom:30px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:13px}
+.mark{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--org),var(--red));font-family:var(--disp);font-weight:700;
+  color:#0a0a0c;font-size:18px;letter-spacing:-.5px}
+.brand b{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.2px}
+.brand span{display:block;font-size:11px;color:var(--muted);letter-spacing:.3px}
+.updated{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right}
+.updated b{color:var(--org);font-weight:500}
+.updated .live{color:var(--green)}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,5vw,46px);letter-spacing:-1.2px;
+  line-height:1.02;margin:26px 0 10px}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--org),var(--red));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:15px;max-width:640px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0 12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--faint);margin-bottom:7px}
+.stat .v{font-family:var(--mono);font-size:22px;font-weight:500;letter-spacing:-.5px}
+.stat .n{font-size:12px;color:var(--muted);margin-top:2px}
+.stat .v.small{font-size:15px;font-family:var(--disp);font-weight:600}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:26px 0 14px}
+.search{flex:1;min-width:180px;position:relative}
+.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  color:var(--ink);font-family:var(--body);font-size:13.5px;padding:10px 12px 10px 34px;outline:none}
+.search input:focus{border-color:var(--org)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.5}
+.segs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:4px}
+.seg{background:none;border:none;color:var(--muted);font-family:var(--body);font-size:12px;font-weight:500;
+  padding:6px 11px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:.15s}
+.seg:hover{color:var(--ink)}
+.seg.on{background:var(--panel2);color:var(--ink)}
+.seg.on::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:linear-gradient(135deg,var(--org),var(--red));margin-right:6px;vertical-align:middle}
+.ladder-head{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;
+  padding:0 14px 9px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--faint);
+  border-bottom:1px solid var(--line)}
+.ladder-head .r{text-align:right}
+.row{display:grid;grid-template-columns:38px 1fr 128px 90px 76px 76px;gap:12px;align-items:center;
+  padding:12px 14px;border-bottom:1px solid var(--line);position:relative}
+.row:hover{background:var(--panel)}
+.rank{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.ctry{display:flex;align-items:center;gap:10px;min-width:0}
+.flag{font-size:19px;line-height:1;flex-shrink:0}
+.cn{font-family:var(--disp);font-weight:500;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rate{font-family:var(--mono);font-size:10.5px;font-weight:500;padding:2px 6px;border-radius:4px;flex-shrink:0;border:1px solid transparent}
+.rate.g{color:var(--green);border-color:rgba(53,192,142,.3)}
+.rate.n{color:var(--muted);border-color:var(--line)}
+.rate.w{color:var(--org);border-color:rgba(239,126,73,.35)}
+.rate.d{color:var(--red);border-color:rgba(211,30,33,.4)}
+.barcell{display:flex;flex-direction:column;gap:5px}
+.bartrack{height:7px;background:var(--panel2);border-radius:4px;overflow:hidden}
+.barfill{height:100%;border-radius:4px;width:0;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.cds{font-family:var(--mono);font-size:15px;font-weight:500;text-align:right;letter-spacing:-.3px}
+.cds small{font-size:10px;color:var(--faint);font-weight:400}
+.pd{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-align:right}
+.var{font-family:var(--mono);font-size:12.5px;text-align:right}
+.var.up{color:var(--red)}.var.dn{color:var(--green)}.var.fl{color:var(--faint)}
+.tag-def{position:absolute;right:14px;top:6px;font-family:var(--mono);font-size:8.5px;letter-spacing:1px;color:var(--red);border:1px solid rgba(211,30,33,.4);border-radius:3px;padding:1px 4px}
+footer{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.foot h4{font-family:var(--disp);font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--org);margin-bottom:9px}
+.foot p{font-size:12.5px;color:var(--muted);margin-bottom:7px}
+.foot .roadmap{display:flex;gap:7px;margin-top:6px;flex-wrap:wrap}
+.chip{font-size:11px;font-family:var(--mono);padding:4px 9px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+.chip.done{color:var(--green);border-color:rgba(53,192,142,.3)}
+.legend{font-size:11.5px;color:var(--faint);margin-top:14px;line-height:1.7}
+.legend b{color:var(--green);font-weight:500}
+.legend i{color:var(--red);font-style:normal}
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .ladder-head,.row{grid-template-columns:26px 1fr 84px 62px;gap:9px}
+  .ladder-head .h-bar,.ladder-head .h-var6,.row .barcell,.row .var6{display:none}
+  footer{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.barfill{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brandrow">
+    <div class="brand">
+      <div class="mark">R</div>
+      <div><b>SoyRGB</b><span>Panel de mercado · Renta fija</span></div>
+    </div>
+    <div class="updated" id="stamp">CARGANDO…</div>
+  </div>
+  <h1>CDS <em>Soberanos</em></h1>
+  <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos, ordenados por riesgo de crédito implícito. El mercado le pone precio a la probabilidad de default — aquí está esa lectura, sin terminal.</p>
+</header>
+<div class="stats" id="stats"></div>
+<div class="controls">
+  <div class="search">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b8b97" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="Buscar país…" autocomplete="off">
+  </div>
+  <div class="segs" id="sorts">
+    <button class="seg on" data-s="cds">CDS 5Y</button>
+    <button class="seg" data-s="pd">PD</button>
+    <button class="seg" data-s="var1m">Var 1m</button>
+    <button class="seg" data-s="rating">Rating</button>
+    <button class="seg" data-s="az">A–Z</button>
+  </div>
+</div>
+<div class="ladder-head">
+  <div>#</div><div>País</div><div class="h-bar">Escala de riesgo</div>
+  <div class="r">CDS 5Y</div><div class="r">PD *</div><div class="r h-var6">Var 1m</div>
+</div>
+<div id="ladder"></div>
+<footer>
+  <div class="foot">
+    <h4>Metodología</h4>
+    <p>Spread del CDS a 5 años en puntos base (bps). <b>PD</b> = probabilidad de default implícita estimada a partir del spread. Var 1m / 6m = cambio del spread en el periodo.</p>
+    <p class="legend">Color de variación: <b>verde = spread a la baja</b> (mejora de crédito) · <i>rojo = spread al alza</i> (deterioro). Soberanos marcados <span style="color:var(--red);font-family:var(--mono);font-size:10px">DEFAULT</span> operan fuera de rango normal.</p>
+  </div>
+  <div class="foot">
+    <h4>Roadmap del panel</h4>
+    <p>Capa 1. Siguiente: single-names corporativos e índices (CDX / iTraxx) desde el tape público del DTCC.</p>
+    <div class="roadmap">
+      <span class="chip done">✓ Soberanos 5Y</span>
+      <span class="chip">Single-names</span>
+      <span class="chip">Índices CDX / iTraxx</span>
+      <span class="chip">Histórico</span>
+    </div>
+  </div>
+</footer>
+</div>
+<script>
+// Snapshot embebido: si el fetch del JSON falla (abierto en local, sin conexion),
+// el panel NUNCA queda vacio; usa esta foto como respaldo.
+const SNAPSHOT = [{"country": "Germany", "iso": "DE", "rating": "AAA", "cds5y": 6.9, "var1m": "-2.40%", "var6m": "-5.87%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Sweden", "iso": "SE", "rating": "AAA", "cds5y": 6.9, "var1m": "-8.00%", "var6m": "-17.27%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Switzerland", "iso": "CH", "rating": "AAA", "cds5y": 7.01, "var1m": "+3.70%", "var6m": "-12.59%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Netherlands", "iso": "NL", "rating": "AAA", "cds5y": 7.7, "var1m": "-1.41%", "var6m": "-0.39%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Denmark", "iso": "DK", "rating": "AAA", "cds5y": 7.77, "var1m": "-3.00%", "var6m": "-7.06%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Austria", "iso": "AT", "rating": "AA+", "cds5y": 10.88, "var1m": "-1.72%", "var6m": "-16.69%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Finland", "iso": "FI", "rating": "AA+", "cds5y": 10.91, "var1m": "-4.47%", "var6m": "-9.46%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Portugal", "iso": "PT", "rating": "A+", "cds5y": 13.93, "var1m": "-2.66%", "var6m": "-9.90%", "pd": "0.23%", "date": "11 Aug"}, {"country": "Ireland", "iso": "IE", "rating": "AA+", "cds5y": 14.15, "var1m": "-3.21%", "var6m": "-1.87%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Australia", "iso": "AU", "rating": "AAA", "cds5y": 14.53, "var1m": "+5.21%", "var6m": "+11.34%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Spain", "iso": "ES", "rating": "A+", "cds5y": 16.11, "var1m": "-0.06%", "var6m": "-2.95%", "pd": "0.27%", "date": "11 Aug"}, {"country": "Belgium", "iso": "BE", "rating": "AA-", "cds5y": 17.12, "var1m": "-2.00%", "var6m": "+15.05%", "pd": "0.29%", "date": "11 Aug"}, {"country": "United Kingdom", "iso": "GB", "rating": "AA", "cds5y": 18.0, "var1m": "-0.72%", "var6m": "+8.43%", "pd": "0.30%", "date": "11 Aug"}, {"country": "South Korea", "iso": "KR", "rating": "AA", "cds5y": 23.1, "var1m": "+2.12%", "var6m": "+6.11%", "pd": "0.39%", "date": "11 Aug"}, {"country": "Japan", "iso": "JP", "rating": "A+", "cds5y": 26.53, "var1m": "+0.11%", "var6m": "+4.16%", "pd": "0.44%", "date": "11 Aug"}, {"country": "Greece", "iso": "GR", "rating": "BBB", "cds5y": 29.15, "var1m": "-0.03%", "var6m": "+11.39%", "pd": "0.49%", "date": "11 Aug"}, {"country": "Italy", "iso": "IT", "rating": "BBB+", "cds5y": 29.65, "var1m": "+0.82%", "var6m": "+22.83%", "pd": "0.49%", "date": "11 Aug"}, {"country": "France", "iso": "FR", "rating": "A+", "cds5y": 31.11, "var1m": "+2.03%", "var6m": "+26.98%", "pd": "0.52%", "date": "10 Aug"}, {"country": "United States", "iso": "US", "rating": "AA+", "cds5y": 35.08, "var1m": "-8.17%", "var6m": "+13.09%", "pd": "0.58%", "date": "11 Aug"}, {"country": "China", "iso": "CN", "rating": "A+", "cds5y": 36.89, "var1m": "+0.49%", "var6m": "-11.30%", "pd": "0.61%", "date": "11 Aug"}, {"country": "Canada", "iso": "CA", "rating": "AAA", "cds5y": 39.6, "var1m": "0.00%", "var6m": "0.00%", "pd": "0.66%", "date": "11 Aug"}, {"country": "Israel", "iso": "IL", "rating": "A", "cds5y": 57.57, "var1m": "-1.71%", "var6m": "-19.36%", "pd": "0.96%", "date": "11 Aug"}, {"country": "Mexico", "iso": "MX", "rating": "BBB", "cds5y": 82.04, "var1m": "-3.33%", "var6m": "-5.37%", "pd": "1.37%", "date": "11 Aug"}, {"country": "India", "iso": "IN", "rating": "BBB", "cds5y": 87.67, "var1m": "0.00%", "var6m": "0.00%", "pd": "1.46%", "date": "11 Aug"}, {"country": "Indonesia", "iso": "ID", "rating": "BBB", "cds5y": 89.03, "var1m": "-2.69%", "var6m": "+14.94%", "pd": "1.48%", "date": "11 Aug"}, {"country": "South Africa", "iso": "ZA", "rating": "BB", "cds5y": 121.74, "var1m": "-1.74%", "var6m": "-11.24%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Brazil", "iso": "BR", "rating": "BB", "cds5y": 121.92, "var1m": "-1.60%", "var6m": "-4.67%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Turkey", "iso": "TR", "rating": "BB-", "cds5y": 226.42, "var1m": "-0.21%", "var6m": "+5.96%", "pd": "3.77%", "date": "11 Aug"}, {"country": "Egypt", "iso": "EG", "rating": "B", "cds5y": 272.16, "var1m": "-1.65%", "var6m": "-7.36%", "pd": "4.54%", "date": "11 Aug"}, {"country": "Russia", "iso": "RU", "rating": "NR", "cds5y": 13775.17, "var1m": "0.00%", "var6m": "0.00%", "pd": "100.00%", "date": "11 Aug"}];
+let DATA = SNAPSHOT, LIVE = false, FETCHED = null;
+
+const $ = s => document.querySelector(s);
+let sortKey = 'cds', query = '';
+let lo=0, hi=1;
+
+function initScale(){
+  const normal = DATA.filter(d => d.pd !== '100.00%' && d.rating !== 'NR');
+  const logs = normal.map(d => Math.log10(d.cds5y));
+  lo = Math.min(...logs); hi = Math.max(...logs);
+}
+function barPct(d){
+  if(d.pd==='100.00%'||d.rating==='NR') return 100;
+  const t = (Math.log10(d.cds5y)-lo)/(hi-lo);
+  return 8 + t*92;
+}
+function barColor(d){
+  if(d.pd==='100.00%'||d.rating==='NR') return 'linear-gradient(90deg,#7a1416,#D31E21)';
+  const t = (Math.log10(d.cds5y)-lo)/(hi-lo);
+  const c1=[239,126,73], c2=[211,30,33], m=i=>Math.round(c1[i]+(c2[i]-c1[i])*t);
+  return `linear-gradient(90deg, rgba(239,126,73,.55), rgb(${m(0)},${m(1)},${m(2)}))`;
+}
+function rateClass(r){
+  if(r==='NR') return 'd';
+  if(r.startsWith('AAA')||r.startsWith('AA')) return 'g';
+  if(r[0]==='A'||r.startsWith('BBB')) return 'n';
+  if(r.startsWith('BB')||r.startsWith('B')) return 'w';
+  return 'd';
+}
+const flag = iso => !iso ? '🏳️' : iso.toUpperCase().replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt()));
+const numVar = v => parseFloat(String(v).replace('%','').replace('+',''))||0;
+
+function sorted(){
+  let arr = DATA.filter(d => d.country.toLowerCase().includes(query.toLowerCase()));
+  const cmp = {
+    cds:(a,b)=>a.cds5y-b.cds5y,
+    pd:(a,b)=>parseFloat(a.pd)-parseFloat(b.pd),
+    var1m:(a,b)=>numVar(b.var1m)-numVar(a.var1m),
+    rating:(a,b)=>a.cds5y-b.cds5y,
+    az:(a,b)=>a.country.localeCompare(b.country)
+  }[sortKey];
+  return arr.sort(cmp);
+}
+function render(){
+  const arr = sorted();
+  $('#ladder').innerHTML = arr.map((d,i)=>{
+    const vc = c => String(c).startsWith('-')?'dn':(String(c).startsWith('+')&&numVar(c)!==0?'up':'fl');
+    const def = (d.pd==='100.00%'||d.rating==='NR') ? '<span class="tag-def">DEFAULT</span>':'';
+    return `<div class="row">
+      <div class="rank">${String(i+1).padStart(2,'0')}</div>
+      <div class="ctry"><span class="flag">${flag(d.iso)}</span><span class="cn">${d.country}</span>
+        <span class="rate ${rateClass(d.rating)}">${d.rating}</span></div>
+      <div class="barcell"><div class="bartrack"><div class="barfill" data-w="${barPct(d)}" style="background:${barColor(d)}"></div></div></div>
+      <div class="cds">${d.cds5y.toLocaleString('en',{maximumFractionDigits:2})}<small> bps</small></div>
+      <div class="pd">${d.pd}</div>
+      <div class="var var6 ${vc(d.var1m)}">${d.var1m}</div>${def}
+    </div>`;
+  }).join('');
+  requestAnimationFrame(()=>document.querySelectorAll('.barfill').forEach((el,i)=>{
+    setTimeout(()=>el.style.width=el.dataset.w+'%', i*14);
+  }));
+}
+function stats(){
+  const cds = DATA.map(d=>d.cds5y).sort((a,b)=>a-b);
+  const med = cds[Math.floor(cds.length/2)];
+  const safe = DATA.reduce((a,b)=>a.cds5y<b.cds5y?a:b);
+  const risk = DATA.filter(d=>d.rating!=='NR').reduce((a,b)=>a.cds5y>b.cds5y?a:b);
+  $('#ncount').textContent = DATA.length;
+  $('#stats').innerHTML = `
+    <div class="stat"><div class="k">Países</div><div class="v">${DATA.length}</div><div class="n">soberanos 5Y</div></div>
+    <div class="stat"><div class="k">Mediana CDS</div><div class="v">${med.toFixed(1)}</div><div class="n">bps</div></div>
+    <div class="stat"><div class="k">Más seguro</div><div class="v small">${flag(safe.iso)} ${safe.country}</div><div class="n">${safe.cds5y} bps</div></div>
+    <div class="stat"><div class="k">Mayor riesgo *</div><div class="v small">${flag(risk.iso)} ${risk.country}</div><div class="n">${risk.cds5y.toLocaleString('en')} bps</div></div>`;
+}
+function stamp(){
+  const d = DATA[0]?.date ? DATA[0].date + ' 2026' : '—';
+  const tag = LIVE ? '<span class="live">● EN VIVO</span>' : 'SNAPSHOT';
+  $('#stamp').innerHTML = `${tag} · <b>${d}</b><br>Fuente: worldgovernmentbonds.com`;
+}
+function boot(){ initScale(); stats(); stamp(); render(); }
+
+// Intenta leer el JSON que commitea GitHub Actions (mismo dominio -> sin CORS).
+fetch('./sovereign_cds.json', {cache:'no-store'})
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(j => { if(j && j.data && j.data.length){ DATA = j.data; LIVE = true; FETCHED = j.fetched_utc; } })
+  .catch(()=>{})   // se queda con el snapshot embebido
+  .finally(boot);
+
+$('#q').addEventListener('input', e=>{query=e.target.value; render();});
+$('#sorts').addEventListener('click', e=>{
+  const b=e.target.closest('.seg'); if(!b)return;
+  document.querySelectorAll('.seg').forEach(s=>s.classList.remove('on'));
+  b.classList.add('on'); sortKey=b.dataset.s; render();
+});
+</script>
+</body>
+</html>
