@@ -132,7 +132,7 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
 @media(prefers-reduced-motion:reduce){.barfill,.dv-bar{transition:none}}
 </style></head><body><div class="wrap">
 <header><div class="brandrow">
-  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.3.1</span></span></div></div>
+  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.3.2</span></span></div></div>
   <div class="updated" id="stamp">CARGANDO…</div></div>
   <h1>CDS <em>Soberanos</em></h1>
   <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.</p>
@@ -305,26 +305,32 @@ function renderHistory(){
   const series=(HIST&&HIST.series)||{};
   const pts=(series[histCountry]||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));
   if(pts.length<1){el.innerHTML=`<div class="hist-empty"><div class="big">Sin datos aún</div><div>Corre el pipeline para sembrar los puntos de control.</div></div>`;return;}
-  const W=700,H=300,mL=52,mR=28,mT=24,mB=34,pw=W-mL-mR,ph=H-mT-mB;
-  const ts=pts.map(p=>Date.parse(p.d));
-  const tmin=Math.min(...ts),tmax=Math.max(...ts);
+  const n=pts.length;
+  const W=700,H=300,mL=52,mR=38,mT=26,mB=34,pw=W-mL-mR,ph=H-mT-mB;
   const vs=pts.map(p=>p.v),vmin=Math.min(...vs),vmax=Math.max(...vs),pad=(vmax-vmin)*0.18||1;
   const lo=vmin-pad,hi=vmax+pad;
-  const X=t=>mL+(tmax===tmin?pw/2:(t-tmin)/(tmax-tmin)*pw);
+  // eje X por observación (espaciado uniforme): así los días recientes no se amontonan
+  const X=i=>mL+(n===1?pw/2:i/(n-1)*pw);
   const Y=v=>mT+ph-(v-lo)/(hi-lo)*ph;
   let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
   [vmin,(vmin+vmax)/2,vmax].forEach(v=>{const y=Y(v);
     svg+=`<line x1="${mL}" y1="${y}" x2="${W-mR}" y2="${y}" stroke="#1f1f26" stroke-width="1"/>`;
     svg+=`<text class="dot-lab" x="${mL-8}" y="${y+3}" text-anchor="end">${v.toFixed(1)}</text>`;});
-  for(let i=1;i<pts.length;i++){
+  for(let i=1;i<n;i++){
     const a=pts[i-1],b=pts[i],dash=(a.s==='der'&&b.s==='der')?'stroke-dasharray="5 4"':'';
-    svg+=`<line x1="${X(ts[i-1])}" y1="${Y(a.v)}" x2="${X(ts[i])}" y2="${Y(b.v)}" stroke="#EF7E49" stroke-width="2" ${dash}/>`;
+    svg+=`<line x1="${X(i-1)}" y1="${Y(a.v)}" x2="${X(i)}" y2="${Y(b.v)}" stroke="#EF7E49" stroke-width="2" ${dash}/>`;
   }
-  pts.forEach((p,i)=>{const x=X(ts[i]),y=Y(p.v);
+  // anti-colisión: etiqueta sólo si hay hueco suficiente; extremos siempre
+  const pickLabels=(gap)=>{const s=new Set([0,n-1]);let last=X(0);
+    for(let i=1;i<n-1;i++){if(X(i)-last>=gap && X(n-1)-X(i)>=gap){s.add(i);last=X(i);}}return s;};
+  const valLab=pickLabels(46), datLab=pickLabels(58);
+  pts.forEach((p,i)=>{const x=X(i),y=Y(p.v);
     if(p.s==='der')svg+=`<circle cx="${x}" cy="${y}" r="4.5" fill="#0a0a0c" stroke="#EF7E49" stroke-width="2"/>`;
     else svg+=`<circle cx="${x}" cy="${y}" r="4.5" fill="#EF7E49"/>`;
-    svg+=`<text class="dot-lab" x="${x}" y="${y-9}" text-anchor="middle" fill="#f4f2ef">${p.v}</text>`;
-    svg+=`<text class="dot-lab" x="${x}" y="${H-mB+16}" text-anchor="middle">${shortDate(p.d)}</text>`;});
+    if(valLab.has(i)){const anchor=i===0?'start':(i===n-1?'end':'middle');
+      svg+=`<text class="dot-lab" x="${x}" y="${y-9}" text-anchor="${anchor}" fill="#f4f2ef">${p.v}</text>`;}
+    if(datLab.has(i)){const anchor=i===0?'start':(i===n-1?'end':'middle');
+      svg+=`<text class="dot-lab" x="${x}" y="${H-mB+16}" text-anchor="${anchor}">${shortDate(p.d)}</text>`;}});
   svg+=`</svg>`;
   el.innerHTML=svg;
 }
