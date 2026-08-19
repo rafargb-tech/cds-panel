@@ -1,0 +1,43 @@
+name: Update credit indices
+
+on:
+  schedule:
+    # 02:30 UTC diario. El EOD del día D del DTCC se publica ~00:15 UTC del D+1;
+    # 02:30 deja margen para el lag y para el retraso habitual del cron de GitHub.
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: "Reconstruir todo el histórico (~1 año) en vez del día"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch (diario o backfill)
+        run: |
+          if [ "${{ inputs.backfill }}" = "true" ]; then
+            echo "Backfill completo…"
+            python3 backfill_indices.py
+            python3 fetch_credit_indices.py   # asegura indices.json del día
+          else
+            python3 fetch_credit_indices.py
+          fi
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "idx-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add indices.json indices_history.json
+          git diff --staged --quiet || git commit -m "data: índices de crédito $(date -u +%F)"
+          git push
