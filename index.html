@@ -130,13 +130,66 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
   footer{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){.barfill,.dv-bar{transition:none}}
+
+/* dataset switch */
+.dsswitch{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:5px;width:max-content;margin:0 0 24px}
+.dsbtn{background:none;border:none;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:14px;padding:9px 20px;border-radius:8px;cursor:pointer;transition:.15s}
+.dsbtn:hover{color:var(--ink)}
+.dsbtn.on{background:linear-gradient(135deg,var(--org),var(--red));color:#0a0a0c}
+.ds{display:none}.ds.on{display:block}
+
+/* relative readings */
+.rel-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.rel-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.rel-card .k{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--faint);margin-bottom:8px}
+.rel-card .v{font-family:var(--mono);font-size:24px;font-weight:500;letter-spacing:-.5px}
+.rel-card .v small{font-size:12px;color:var(--muted);font-weight:400}
+.rel-card .n{font-size:11.5px;color:var(--muted);margin-top:4px}
+
+/* index cards */
+.idx-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.idx-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px 6px}
+.idx-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.idx-name{font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:-.3px}
+.idx-region{font-size:11px;color:var(--faint);font-weight:400;margin-left:6px}
+.grade{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:5px;border:1px solid transparent;white-space:nowrap}
+.grade.ig{color:var(--green);border-color:rgba(53,192,142,.3)}
+.grade.hy{color:var(--org);border-color:rgba(239,126,73,.35)}
+.grade.xo{color:var(--red);border-color:rgba(211,30,33,.4)}
+.idx-level{display:flex;align-items:baseline;gap:10px;margin:12px 0 2px}
+.idx-val{font-family:var(--mono);font-size:30px;font-weight:500;letter-spacing:-1px}
+.idx-unit{font-size:12px;color:var(--faint)}
+.idx-chg{font-family:var(--mono);font-size:13px}
+.idx-chg.up{color:var(--red)}.idx-chg.dn{color:var(--green)}.idx-chg.fl{color:var(--faint)}
+.idx-derived{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:2px}
+.idx-derived b{color:var(--org);font-weight:500}
+.idx-meta{font-family:var(--mono);font-size:11px;color:var(--faint);margin:6px 0 4px;display:flex;gap:10px;flex-wrap:wrap}
+.idx-spark svg{width:100%;height:auto;display:block}
+.spark-lab{font-family:var(--mono);font-size:9px;fill:var(--faint)}
+
+.idx-foot{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.idx-foot p{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.idx-foot b{color:var(--ink);font-weight:500}
+.idx-foot .idx-note{color:var(--faint)}
+.idx-foot .idx-note b{color:var(--org)}
+
+@media(max-width:720px){
+  .rel-row{grid-template-columns:1fr;gap:10px}
+  .idx-grid{grid-template-columns:1fr}
+  .dsbtn{padding:9px 14px;font-size:13px}
+}
 </style></head><body><div class="wrap">
 <header><div class="brandrow">
-  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v1.3.2</span></span></div></div>
+  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v2.0</span></span></div></div>
   <div class="updated" id="stamp">CARGANDO…</div></div>
-  <h1>CDS <em>Soberanos</em></h1>
-  <p class="sub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.</p>
+  <h1 id="dstitle">CDS <em>Soberanos</em></h1>
+  <p class="sub" id="dssub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.</p>
 </header>
+<div class="dsswitch">
+  <button class="dsbtn on" data-ds="sov">CDS Soberanos</button>
+  <button class="dsbtn" data-ds="idx">Índices de crédito</button>
+</div>
+<div id="ds-sov" class="ds on">
 <div class="stats" id="stats"></div>
 
 <div class="viewswitch">
@@ -187,7 +240,16 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
     <p>Capa 1. Siguiente: single-names e índices (CDX / iTraxx) desde el tape del DTCC.</p>
     <div class="roadmap"><span class="chip done">✓ Soberanos 5Y</span><span class="chip done">✓ Gráficas</span><span class="chip">Single-names</span><span class="chip">Índices CDX / iTraxx</span></div></div>
 </footer>
-</div><script>
+</div><!--/ds-sov-->
+<div id="ds-idx" class="ds">
+  <div class="rel-row" id="relrow"></div>
+  <div class="idx-grid" id="idxgrid"></div>
+  <div class="idx-foot">
+    <p><b>Cómo leerlo.</b> Nivel = <b>mediana</b> de las operaciones on-the-run a 5 años del día, tomadas del tape público del DTCC. Sigue de cerca al cierre oficial de Markit/S&amp;P, pero es una mediana transaccional, no el cierre compuesto oficial.</p>
+    <p class="idx-note">CDX.NA.HY cotiza en <b>precio</b> (puntos): la serie primaria es el precio observado; el spread es <b>derivado</b> con un modelo flat-hazard (estimación, no oficial). Lag de ~1 día hábil. El histórico es <b>observado real</b> (~1 año), no reconstruido.</p>
+  </div>
+</div>
+<script>
 const SNAPSHOT = [{"country": "Germany", "iso": "DE", "rating": "AAA", "cds5y": 6.9, "var1m": "-2.40%", "var6m": "-5.87%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Sweden", "iso": "SE", "rating": "AAA", "cds5y": 6.9, "var1m": "-8.00%", "var6m": "-17.27%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Switzerland", "iso": "CH", "rating": "AAA", "cds5y": 7.01, "var1m": "+3.70%", "var6m": "-12.59%", "pd": "0.12%", "date": "11 Aug"}, {"country": "Netherlands", "iso": "NL", "rating": "AAA", "cds5y": 7.7, "var1m": "-1.41%", "var6m": "-0.39%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Denmark", "iso": "DK", "rating": "AAA", "cds5y": 7.77, "var1m": "-3.00%", "var6m": "-7.06%", "pd": "0.13%", "date": "11 Aug"}, {"country": "Austria", "iso": "AT", "rating": "AA+", "cds5y": 10.88, "var1m": "-1.72%", "var6m": "-16.69%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Finland", "iso": "FI", "rating": "AA+", "cds5y": 10.91, "var1m": "-4.47%", "var6m": "-9.46%", "pd": "0.18%", "date": "11 Aug"}, {"country": "Portugal", "iso": "PT", "rating": "A+", "cds5y": 13.93, "var1m": "-2.66%", "var6m": "-9.90%", "pd": "0.23%", "date": "11 Aug"}, {"country": "Ireland", "iso": "IE", "rating": "AA+", "cds5y": 14.15, "var1m": "-3.21%", "var6m": "-1.87%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Australia", "iso": "AU", "rating": "AAA", "cds5y": 14.53, "var1m": "+5.21%", "var6m": "+11.34%", "pd": "0.24%", "date": "11 Aug"}, {"country": "Spain", "iso": "ES", "rating": "A+", "cds5y": 16.11, "var1m": "-0.06%", "var6m": "-2.95%", "pd": "0.27%", "date": "11 Aug"}, {"country": "Belgium", "iso": "BE", "rating": "AA-", "cds5y": 17.12, "var1m": "-2.00%", "var6m": "+15.05%", "pd": "0.29%", "date": "11 Aug"}, {"country": "United Kingdom", "iso": "GB", "rating": "AA", "cds5y": 18.0, "var1m": "-0.72%", "var6m": "+8.43%", "pd": "0.30%", "date": "11 Aug"}, {"country": "South Korea", "iso": "KR", "rating": "AA", "cds5y": 23.1, "var1m": "+2.12%", "var6m": "+6.11%", "pd": "0.39%", "date": "11 Aug"}, {"country": "Japan", "iso": "JP", "rating": "A+", "cds5y": 26.53, "var1m": "+0.11%", "var6m": "+4.16%", "pd": "0.44%", "date": "11 Aug"}, {"country": "Greece", "iso": "GR", "rating": "BBB", "cds5y": 29.15, "var1m": "-0.03%", "var6m": "+11.39%", "pd": "0.49%", "date": "11 Aug"}, {"country": "Italy", "iso": "IT", "rating": "BBB+", "cds5y": 29.65, "var1m": "+0.82%", "var6m": "+22.83%", "pd": "0.49%", "date": "11 Aug"}, {"country": "France", "iso": "FR", "rating": "A+", "cds5y": 31.11, "var1m": "+2.03%", "var6m": "+26.98%", "pd": "0.52%", "date": "10 Aug"}, {"country": "United States", "iso": "US", "rating": "AA+", "cds5y": 35.08, "var1m": "-8.17%", "var6m": "+13.09%", "pd": "0.58%", "date": "11 Aug"}, {"country": "China", "iso": "CN", "rating": "A+", "cds5y": 36.89, "var1m": "+0.49%", "var6m": "-11.30%", "pd": "0.61%", "date": "11 Aug"}, {"country": "Canada", "iso": "CA", "rating": "AAA", "cds5y": 39.6, "var1m": "0.00%", "var6m": "0.00%", "pd": "0.66%", "date": "11 Aug"}, {"country": "Israel", "iso": "IL", "rating": "A", "cds5y": 57.57, "var1m": "-1.71%", "var6m": "-19.36%", "pd": "0.96%", "date": "11 Aug"}, {"country": "Mexico", "iso": "MX", "rating": "BBB", "cds5y": 82.04, "var1m": "-3.33%", "var6m": "-5.37%", "pd": "1.37%", "date": "11 Aug"}, {"country": "India", "iso": "IN", "rating": "BBB", "cds5y": 87.67, "var1m": "0.00%", "var6m": "0.00%", "pd": "1.46%", "date": "11 Aug"}, {"country": "Indonesia", "iso": "ID", "rating": "BBB", "cds5y": 89.03, "var1m": "-2.69%", "var6m": "+14.94%", "pd": "1.48%", "date": "11 Aug"}, {"country": "South Africa", "iso": "ZA", "rating": "BB", "cds5y": 121.74, "var1m": "-1.74%", "var6m": "-11.24%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Brazil", "iso": "BR", "rating": "BB", "cds5y": 121.92, "var1m": "-1.60%", "var6m": "-4.67%", "pd": "2.03%", "date": "11 Aug"}, {"country": "Turkey", "iso": "TR", "rating": "BB-", "cds5y": 226.42, "var1m": "-0.21%", "var6m": "+5.96%", "pd": "3.77%", "date": "11 Aug"}, {"country": "Egypt", "iso": "EG", "rating": "B", "cds5y": 272.16, "var1m": "-1.65%", "var6m": "-7.36%", "pd": "4.54%", "date": "11 Aug"}, {"country": "Russia", "iso": "RU", "rating": "NR", "cds5y": 13775.17, "var1m": "0.00%", "var6m": "0.00%", "pd": "100.00%", "date": "11 Aug"}];
 let DATA = SNAPSHOT, HIST = null, LIVE = false;
 const $ = s => document.querySelector(s);
@@ -351,14 +413,88 @@ function stamp(){
   $('#stamp').innerHTML=`${LIVE?'<span class="live">● EN VIVO</span>':'SNAPSHOT'} · <b>${d}</b>`;
 }
 function renderAll(){ renderLadder(); renderDiverging(); renderScatter(); renderHistory(); }
-function boot(){ initScale(); stats(); stamp(); renderAll(); }
+
+// ===== ÍNDICES DE CRÉDITO (CDX / iTraxx) =====
+const IDX_SNAP = [{"key": "IG", "name": "CDX.NA.IG", "region": "Norteamérica", "grade": "Investment Grade", "kind": "spread", "n": 315, "lo": 51.65, "hi": 52.3, "maturity": "2031-06-20", "value": 51.89}, {"key": "MAIN", "name": "iTraxx Europe", "region": "Europa", "grade": "Investment Grade", "kind": "spread", "n": 164, "lo": 51.87, "hi": 52.48, "maturity": "2031-06-20", "value": 52.23}, {"key": "XO", "name": "iTraxx Crossover", "region": "Europa", "grade": "Sub-IG (Crossover)", "kind": "spread", "n": 188, "lo": 246.88, "hi": 253.59, "maturity": "2031-06-20", "value": 252.04}, {"key": "HY", "name": "CDX.NA.HY", "region": "Norteamérica", "grade": "High Yield", "kind": "price", "n": 344, "lo": 107.69, "hi": 107.81, "maturity": "2031-06-20", "value": 107.75, "spread_derived": 308.3}];
+let IDX = IDX_SNAP, IDXH = null, IDXLIVE = false, IDX_FILEDATE = '2026-08-18';
+const idxByKey = k => IDX.find(x=>x.key===k);
+const fmtSigned = (x,d)=> (x>0?'+':'') + x.toFixed(d);
+
+function renderRelative(){
+  const ig=idxByKey('IG'),main=idxByKey('MAIN'),xo=idxByKey('XO'),hy=idxByKey('HY');
+  if(!ig||!main||!xo||!hy)return;
+  const hySd=hy.spread_derived, naQ=hySd-ig.value, euQ=xo.value-main.value, ratio=xo.value/hySd;
+  $('#relrow').innerHTML=`
+    <div class="rel-card"><div class="k">Prima de calidad · NA</div>
+      <div class="v">${naQ.toFixed(0)}<small> bps</small></div>
+      <div class="n">CDX.HY (der.) − CDX.IG · lo que paga de más el high yield</div></div>
+    <div class="rel-card"><div class="k">Prima de calidad · Europa</div>
+      <div class="v">${euQ.toFixed(0)}<small> bps</small></div>
+      <div class="n">iTraxx Crossover − Main · sub-IG vs grado de inversión</div></div>
+    <div class="rel-card"><div class="k">Ratio transatlántico</div>
+      <div class="v">${ratio.toFixed(2)}<small>×</small></div>
+      <div class="n">iTraxx XO ÷ CDX.HY (der.) · menor a 1 = Europa más barata</div></div>`;
+}
+
+function sparkline(series){
+  if(!series||series.length<2)return '<svg viewBox="0 0 300 70"></svg>';
+  const W=300,H=70,mL=4,mR=40,mT=9,mB=11,pw=W-mL-mR,ph=H-mT-mB;
+  const vs=series.map(p=>p.v),vmin=Math.min(...vs),vmax=Math.max(...vs),rng=(vmax-vmin)||1;
+  const X=i=>mL+i/(series.length-1)*pw, Y=v=>mT+ph-(v-vmin)/rng*ph;
+  const line=series.map((p,i)=>`${X(i).toFixed(1)},${Y(p.v).toFixed(1)}`).join(' ');
+  const area=`${mL},${(mT+ph).toFixed(1)} ${line} ${(mL+pw).toFixed(1)},${(mT+ph).toFixed(1)}`;
+  const last=series[series.length-1];
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="${area}" fill="rgba(239,126,73,.10)" stroke="none"/>
+    <polyline points="${line}" fill="none" stroke="#EF7E49" stroke-width="1.5"/>
+    <circle cx="${X(series.length-1).toFixed(1)}" cy="${Y(last.v).toFixed(1)}" r="2.6" fill="#EF7E49"/>
+    <text class="spark-lab" x="${W-mR+5}" y="${(Y(last.v)+3).toFixed(1)}">${last.v}</text>
+    <text class="spark-lab" x="${mL}" y="${H-1}">${MES[+series[0].d.slice(5,7)-1]} '${series[0].d.slice(2,4)}</text>
+    <text class="spark-lab" x="${mL+pw}" y="${H-1}" text-anchor="end">${MES[+last.d.slice(5,7)-1]} '${last.d.slice(2,4)}</text></svg>`;
+}
+
+function idxCard(e){
+  const s=(IDXH&&IDXH.series&&IDXH.series[e.key])||[];
+  let chgTxt='—',chgCls='fl';
+  if(s.length>=2){
+    const chg=s[s.length-1].v-s[s.length-2].v;
+    const worseUp=(e.kind==='spread'), risky=worseUp?chg>0:chg<0;
+    chgCls=Math.abs(chg)<1e-9?'fl':(risky?'up':'dn');
+    chgTxt=fmtSigned(chg,2)+(e.kind==='price'?' pts':' bps');
+  }
+  const gc=e.key==='HY'?'hy':(e.key==='XO'?'xo':'ig');
+  const unit=e.kind==='price'?'precio (pts)':'bps · 5Y';
+  const derived=e.kind==='price'?`<div class="idx-derived">Spread &asymp; <b>${e.spread_derived} bps</b> &middot; derivado (modelo)</div>`:'';
+  return `<div class="idx-card">
+    <div class="idx-top"><div class="idx-name">${e.name}<span class="idx-region">${e.region}</span></div>
+      <span class="grade ${gc}">${e.grade}</span></div>
+    <div class="idx-level"><span class="idx-val">${e.value}</span><span class="idx-unit">${unit}</span>
+      <span class="idx-chg ${chgCls}">${chgTxt} <span style="color:var(--faint);font-size:10px">1d</span></span></div>
+    ${derived}
+    <div class="idx-meta"><span>n=${e.n} prints</span><span>rango ${e.lo}&ndash;${e.hi}</span><span>serie ${e.maturity}</span></div>
+    <div class="idx-spark">${sparkline(s)}</div></div>`;
+}
+function renderIndices(){ renderRelative();
+  $('#idxgrid').innerHTML=['IG','HY','MAIN','XO'].map(k=>{const e=idxByKey(k);return e?idxCard(e):'';}).join(''); }
+
+const DS_META={
+  sov:{t:'CDS <em>Soberanos</em>', s:'Credit Default Swaps a 5 a&ntilde;os de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.'},
+  idx:{t:'&Iacute;ndices de <em>cr&eacute;dito</em>', s:'Los &iacute;ndices de CDS negociables (CDX / iTraxx) a 5 a&ntilde;os &mdash; el term&oacute;metro del estr&eacute;s de cr&eacute;dito corporativo. Nivel derivado del tape p&uacute;blico del DTCC.'}
+};
+function idxStamp(){ return `${IDXLIVE?'<span class="live">&#9679; DTCC</span>':'SNAPSHOT'} &middot; <b>${IDX_FILEDATE}</b>`; }
+
+function boot(){ initScale(); stats(); stamp(); renderAll(); renderIndices(); }
 
 Promise.all([
   fetch('./sovereign_cds.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null),
-  fetch('./history.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)
-]).then(([j,h])=>{
+  fetch('./history.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null),
+  fetch('./indices.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null),
+  fetch('./indices_history.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)
+]).then(([j,h,ij,ih])=>{
   if(j&&j.data&&j.data.length){DATA=j.data;LIVE=true;}
   if(h&&h.series)HIST=h;
+  if(ij&&ij.data&&ij.data.length){IDX=ij.data;IDXLIVE=true;IDX_FILEDATE=ij.file_date;}
+  if(ih&&ih.series)IDXH=ih;
 }).finally(boot);
 
 // listeners
@@ -371,4 +507,10 @@ document.addEventListener('change',e=>{if(e.target.id==='histsel'){histCountry=e
 document.querySelector('.viewswitch').addEventListener('click',e=>{const b=e.target.closest('.vbtn');if(!b)return;
   document.querySelectorAll('.vbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));$('#view-'+b.dataset.v).classList.add('on');});
+document.querySelector('.dsswitch').addEventListener('click',e=>{const b=e.target.closest('.dsbtn');if(!b)return;
+  document.querySelectorAll('.dsbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  const ds=b.dataset.ds;
+  document.querySelectorAll('.ds').forEach(x=>x.classList.remove('on'));$('#ds-'+ds).classList.add('on');
+  $('#dstitle').innerHTML=DS_META[ds].t; $('#dssub').innerHTML=DS_META[ds].s;
+  if(ds==='idx'){$('#stamp').innerHTML=idxStamp();renderIndices();}else{stamp();}});
 </script></body></html>
