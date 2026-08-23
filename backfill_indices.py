@@ -1,66 +1,54 @@
 #!/usr/bin/env python3
-"""Backfill: recorre TODOS los ficheros diarios del DTCC y construye indices_history.json
-   con niveles OBSERVADOS reales (sin reconstruir). Descargas en paralelo + caché local."""
-import json, csv, io, zipfile, urllib.request, collections, statistics as st, datetime as dt, os, time
+"""Backfill del histórico OBSERVADO de índices de crédito, vía S3 directo (sin API DTCC).
+   Itera fechas hacia atrás (~14 meses), descarga de S3 lo que exista (403/404 = no existe),
+   calcula la mediana on-the-run 5Y por índice y ensambla indices_history.json. Paralelo + caché."""
+import json, io, zipfile, collections, datetime as dt, os, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import fetch_credit_indices as F   # reutiliza META, level_for, hy_price_to_spread, _num
+import fetch_credit_indices as F     # s3_url, download, rows_from_bytes, level_for, hy_price_to_spread, META
 
-CACHE='cache'
+CACHE='cache'; DAYS_BACK=430
 
-def dl(entry):
-    fn=entry['fileName']; path=os.path.join(CACHE, fn)
+def get_day(d):
+    fn=f"CFTC_CUMULATIVE_CREDITS_{d.strftime('%Y_%m_%d')}.zip"
+    path=os.path.join(CACHE, fn)
     if os.path.exists(path) and os.path.getsize(path)>200:
         raw=open(path,'rb').read()
     else:
-        try:
-            req=urllib.request.Request(entry['fullFilePath'], headers=F.UA)
-            raw=urllib.request.urlopen(req, timeout=90).read()
-            open(path,'wb').write(raw)
-        except Exception as ex:
-            return (entry, None, str(ex))
-    return (entry, raw, None)
-
-def process(entry, raw):
-    try:
-        z=zipfile.ZipFile(io.BytesIO(raw))
-        rows=list(csv.reader(io.TextIOWrapper(z.open(z.namelist()[0]),'utf-8')))
-    except Exception:
-        return None
-    fdate=F.file_date(entry); out={}
+        try: raw=F.download(F.s3_url(d))
+        except Exception: return (d, None)
+        if raw is None: return (d, None)              # 403/404 -> no existe ese día
+        open(path,'wb').write(raw)
+    try: rows=F.rows_from_bytes(raw)
+    except Exception: return (d, None)
+    out={}
     for upi,meta in F.META.items():
-        lv=F.level_for(rows, upi, fdate)
+        lv=F.level_for(rows, upi, d)
         if not lv: continue
-        pt={'d':fdate.isoformat(),'v':lv['value']}
+        pt={'d':d.isoformat(),'v':lv['value']}
         if meta['kind']=='price': pt['sd']=F.hy_price_to_spread(lv['value'])
-        out.setdefault(meta['key'], pt)
-    return (fdate.isoformat(), out)
+        out[meta['key']]=pt
+    return (d, out or None)
 
 def main():
-    idx=F.get_index()
-    print(f"Ficheros a procesar: {len(idx)}")
-    t0=time.time(); results=[]; done=0
+    os.makedirs(CACHE, exist_ok=True)
+    today=dt.datetime.now(dt.timezone.utc).date()
+    cands=[today-dt.timedelta(k) for k in range(1, DAYS_BACK+1)]
+    t0=time.time(); series=collections.defaultdict(dict); ok=0
     with ThreadPoolExecutor(max_workers=12) as ex:
-        futs=[ex.submit(dl, e) for e in idx]
-        for fut in as_completed(futs):
-            entry, raw, err = fut.result(); done+=1
-            if err or raw is None:
-                continue
-            pr=process(entry, raw)
-            if pr: results.append(pr)
-            if done%50==0: print(f"  {done}/{len(idx)}  ({time.time()-t0:.0f}s)")
-    # ensamblar series por índice
-    series=collections.defaultdict(dict)   # key -> {date: pt}
-    for dstr, perday in results:
-        for k, pt in perday.items():
-            series[k][dstr]=pt
+        futs=[ex.submit(get_day,d) for d in cands]
+        for i,fut in enumerate(as_completed(futs),1):
+            d,out=fut.result()
+            if out:
+                ok+=1
+                for k,pt in out.items(): series[k][pt['d']]=pt
+            if i%80==0: print(f"  {i}/{len(cands)}  días válidos={ok}  ({time.time()-t0:.0f}s)")
     hist={'updated_utc':dt.datetime.now(dt.timezone.utc).isoformat(),'series':{}}
-    for k, bydate in series.items():
-        hist['series'][k]=[bydate[d] for d in sorted(bydate)]
+    for k,bydate in series.items():
+        hist['series'][k]=[bydate[dd] for dd in sorted(bydate)]
     json.dump(hist, open('indices_history.json','w',encoding='utf-8'), ensure_ascii=False)
-    print(f"\nHecho en {time.time()-t0:.0f}s")
+    print(f"\nHecho en {time.time()-t0:.0f}s · días válidos={ok}")
     for k,v in hist['series'].items():
-        span=f"{v[0]['d']} -> {v[-1]['d']}" if v else "-"
-        print(f"  {k:5} {len(v):4d} días  [{span}]  último={v[-1]['v'] if v else '-'}")
+        print(f"  {k:5} {len(v):4d} días  [{v[0]['d']} -> {v[-1]['d']}]  último={v[-1]['v']}")
 
 if __name__=='__main__':
     main()
