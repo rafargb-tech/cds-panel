@@ -1,6 +1,6 @@
 {
-  "fetched_utc": "2026-08-31T08:46:56.583056+00:00",
-  "file_date": "2026-08-28",
+  "fetched_utc": "2026-09-01T07:54:32.919065+00:00",
+  "file_date": "2026-08-31",
   "source": "DTCC PPD (CFTC/Credits) vía S3",
   "lag_note": "EOD del DTCC, ~1 día hábil",
   "data": [
@@ -10,35 +10,11 @@
       "region": "Norteamérica",
       "grade": "Investment Grade",
       "kind": "spread",
-      "n": 231,
-      "lo": 49.97,
-      "hi": 50.41,
+      "n": 239,
+      "lo": 50.23,
+      "hi": 50.68,
       "maturity": "2031-06-20",
-      "value": 50.2
-    },
-    {
-      "key": "MAIN",
-      "name": "iTraxx Europe",
-      "region": "Europa",
-      "grade": "Investment Grade",
-      "kind": "spread",
-      "n": 101,
-      "lo": 50.8,
-      "hi": 51.18,
-      "maturity": "2031-06-20",
-      "value": 51.04
-    },
-    {
-      "key": "XO",
-      "name": "iTraxx Crossover",
-      "region": "Europa",
-      "grade": "Sub-IG (Crossover)",
-      "kind": "spread",
-      "n": 81,
-      "lo": 245.75,
-      "hi": 247.59,
-      "maturity": "2031-06-20",
-      "value": 246.74
+      "value": 50.41
     },
     {
       "key": "HY",
@@ -46,12 +22,12 @@
       "region": "Norteamérica",
       "grade": "High Yield",
       "kind": "price",
-      "n": 226,
-      "lo": 107.91,
-      "hi": 108.04,
+      "n": 241,
+      "lo": 107.85,
+      "hi": 108.0,
       "maturity": "2031-06-20",
-      "value": 107.98,
-      "spread_derived": 302.9
+      "value": 107.88,
+      "spread_derived": 305.3
     }
   ]
 }
