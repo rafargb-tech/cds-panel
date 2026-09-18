@@ -1,6 +1,6 @@
 {
-  "fetched_utc": "2026-09-17T07:53:05.650522+00:00",
-  "file_date": "2026-09-16",
+  "fetched_utc": "2026-09-18T07:31:34.109518+00:00",
+  "file_date": "2026-09-17",
   "source": "DTCC PPD (CFTC/Credits) vía S3",
   "lag_note": "EOD del DTCC, ~1 día hábil",
   "data": [
@@ -10,11 +10,11 @@
       "region": "Norteamérica",
       "grade": "Investment Grade",
       "kind": "spread",
-      "n": 503,
+      "n": 286,
       "lo": 0.0,
-      "hi": 57.5,
+      "hi": 51.2,
       "maturity": "2031-06-20",
-      "value": 51.7
+      "value": 50.72
     },
     {
       "key": "MAIN",
@@ -22,11 +22,11 @@
       "region": "Europa",
       "grade": "Investment Grade",
       "kind": "spread",
-      "n": 265,
-      "lo": 53.46,
-      "hi": 54.88,
+      "n": 187,
+      "lo": 52.6,
+      "hi": 53.46,
       "maturity": "2031-06-20",
-      "value": 54.3
+      "value": 52.84
     },
     {
       "key": "XO",
@@ -34,11 +34,11 @@
       "region": "Europa",
       "grade": "Sub-IG (Crossover)",
       "kind": "spread",
-      "n": 245,
-      "lo": 250.0,
-      "hi": 264.7,
+      "n": 242,
+      "lo": 249.69,
+      "hi": 257.5,
       "maturity": "2031-06-20",
-      "value": 261.76
+      "value": 254.92
     },
     {
       "key": "HY",
@@ -46,12 +46,12 @@
       "region": "Norteamérica",
       "grade": "High Yield",
       "kind": "price",
-      "n": 624,
-      "lo": 100.0,
-      "hi": 107.5,
+      "n": 392,
+      "lo": 107.43,
+      "hi": 107.59,
       "maturity": "2031-06-20",
-      "value": 107.3,
-      "spread_derived": 318.7
+      "value": 107.53,
+      "spread_derived": 313.4
     }
   ]
 }
