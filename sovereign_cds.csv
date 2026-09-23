@@ -1,6 +1,6 @@
 country,iso,rating,cds5y,var1m,var6m,pd,date
 Sweden,SE,AAA,6.81,-4.08%,-25.00%,0.11%,20 Sep
-Switzerland,CH,AAA,7.0,0.00%,-6.29%,0.12%,21 Sep
+Switzerland,CH,AAA,7.0,0.00%,-6.29%,0.12%,22 Sep
 Germany,DE,AAA,7.53,+7.42%,-20.40%,0.13%,20 Sep
 Denmark,DK,AAA,8.17,+2.90%,-14.00%,0.14%,20 Sep
 Netherlands,NL,AAA,8.19,+5.41%,-10.00%,0.14%,20 Sep
@@ -8,24 +8,24 @@ Finland,FI,AA+,11.3,+3.76%,-15.80%,0.19%,20 Sep
 Austria,AT,AA+,11.75,+7.11%,-19.24%,0.20%,20 Sep
 Ireland,IE,AA+,14.68,+1.94%,-9.88%,0.24%,20 Sep
 Portugal,PT,A+,14.82,+3.56%,-21.63%,0.25%,20 Sep
-Australia,AU,AAA,15.01,+1.62%,+9.64%,0.25%,21 Sep
-Spain,ES,A+,16.57,+3.11%,-8.00%,0.28%,21 Sep
+Australia,AU,AAA,15.99,+8.26%,+16.80%,0.27%,22 Sep
+Spain,ES,A+,16.56,+3.24%,-8.05%,0.28%,22 Sep
 Belgium,BE,AA-,18.15,+4.01%,-0.82%,0.30%,20 Sep
-United Kingdom,GB,AA,18.83,+1.29%,-0.89%,0.31%,21 Sep
-South Korea,KR,AA,21.07,-4.57%,-31.41%,0.35%,21 Sep
+United Kingdom,GB,AA,18.57,+1.48%,-2.26%,0.31%,22 Sep
 Japan,JP,A+,23.02,-7.40%,-12.93%,0.38%,20 Sep
-Greece,GR,BBB,30.73,-0.36%,-0.23%,0.51%,21 Sep
-United States,US,AA+,32.39,-5.24%,-13.28%,0.54%,21 Sep
+South Korea,KR,AA,23.64,+7.07%,-23.05%,0.39%,22 Sep
+United States,US,AA+,31.5,-7.84%,-15.66%,0.53%,22 Sep
 China,CN,A+,32.74,-7.75%,-35.26%,0.55%,20 Sep
-Italy,IT,BBB+,34.36,+12.25%,+5.53%,0.57%,21 Sep
-Canada,CA,AAA,39.6,0.00%,0.00%,0.66%,21 Sep
+Greece,GR,BBB,33.4,+8.30%,+8.44%,0.56%,22 Sep
+Italy,IT,BBB+,37.23,+20.21%,+14.34%,0.62%,22 Sep
+Canada,CA,AAA,39.6,0.00%,0.00%,0.66%,22 Sep
 France,FR,A+,43.6,+33.17%,+50.34%,0.73%,21 Sep
-Israel,IL,A,53.07,-1.85%,-32.28%,0.88%,21 Sep
-Mexico,MX,BBB,79.05,-3.05%,-20.16%,1.32%,20 Sep
+Israel,IL,A,56.98,+5.38%,-27.29%,0.95%,22 Sep
 Indonesia,ID,BBB,81.78,-2.63%,-18.68%,1.36%,20 Sep
-India,IN,BBB,87.67,0.00%,0.00%,1.46%,21 Sep
-Brazil,BR,BB,111.8,-10.85%,-25.39%,1.86%,21 Sep
-South Africa,ZA,BB,115.94,-3.46%,-34.39%,1.93%,21 Sep
-Turkey,TR,BB-,232.78,+5.67%,-15.66%,3.88%,21 Sep
+Mexico,MX,BBB,84.77,+4.38%,-21.52%,1.41%,22 Sep
+India,IN,BBB,87.67,0.00%,0.00%,1.46%,22 Sep
+South Africa,ZA,BB,115.94,-3.46%,-34.39%,1.93%,22 Sep
+Brazil,BR,BB,121.12,-2.51%,-19.17%,2.02%,22 Sep
+Turkey,TR,BB-,232.8,+5.68%,-15.65%,3.88%,22 Sep
 Egypt,EG,B,275.75,+0.85%,-34.53%,4.60%,20 Sep
-Russia,RU,NR,13775.17,0.00%,0.00%,100.00%,21 Sep
+Russia,RU,NR,13775.17,0.00%,0.00%,100.00%,22 Sep
