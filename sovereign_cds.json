@@ -1,67 +1,67 @@
 {
-  "fetched_utc": "2026-10-20T00:55:26.010595+00:00",
+  "fetched_utc": "2026-10-21T00:23:54.120729+00:00",
   "source": "https://www.worldgovernmentbonds.com",
-  "count": 26,
+  "count": 27,
   "data": [
     {
       "country": "Switzerland",
       "iso": "CH",
       "rating": "AAA",
-      "cds5y": 7.77,
-      "var1m": "+11.00%",
-      "var6m": "-2.88%",
+      "cds5y": 7.76,
+      "var1m": "+10.86%",
+      "var6m": "-3.00%",
       "pd": "0.13%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Sweden",
       "iso": "SE",
       "rating": "AAA",
-      "cds5y": 9.62,
-      "var1m": "+41.26%",
-      "var6m": "+22.55%",
-      "pd": "0.16%",
-      "date": "19 Oct"
+      "cds5y": 10.15,
+      "var1m": "+49.05%",
+      "var6m": "+26.56%",
+      "pd": "0.17%",
+      "date": "20 Oct"
     },
     {
       "country": "Denmark",
       "iso": "DK",
       "rating": "AAA",
-      "cds5y": 10.0,
-      "var1m": "+22.40%",
-      "var6m": "+13.77%",
-      "pd": "0.17%",
-      "date": "19 Oct"
+      "cds5y": 10.5,
+      "var1m": "+28.52%",
+      "var6m": "+17.98%",
+      "pd": "0.18%",
+      "date": "20 Oct"
     },
     {
       "country": "Germany",
       "iso": "DE",
       "rating": "AAA",
-      "cds5y": 12.1,
-      "var1m": "+60.69%",
-      "var6m": "+34.59%",
+      "cds5y": 12.09,
+      "var1m": "+60.56%",
+      "var6m": "+33.74%",
       "pd": "0.20%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Netherlands",
       "iso": "NL",
       "rating": "AAA",
-      "cds5y": 12.95,
-      "var1m": "+58.12%",
-      "var6m": "+51.11%",
+      "cds5y": 13.21,
+      "var1m": "+61.29%",
+      "var6m": "+50.46%",
       "pd": "0.22%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Finland",
       "iso": "FI",
       "rating": "AA+",
-      "cds5y": 14.37,
-      "var1m": "+27.17%",
-      "var6m": "+12.97%",
+      "cds5y": 14.67,
+      "var1m": "+29.82%",
+      "var6m": "+14.61%",
       "pd": "0.24%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Australia",
@@ -69,79 +69,69 @@
       "rating": "AAA",
       "cds5y": 15.93,
       "var1m": "+7.56%",
-      "var6m": "+8.22%",
+      "var6m": "+7.85%",
       "pd": "0.27%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Austria",
       "iso": "AT",
       "rating": "AA+",
-      "cds5y": 17.16,
-      "var1m": "+46.04%",
-      "var6m": "+35.76%",
+      "cds5y": 17.59,
+      "var1m": "+49.70%",
+      "var6m": "+34.07%",
       "pd": "0.29%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Ireland",
       "iso": "IE",
       "rating": "AA+",
-      "cds5y": 17.6,
-      "var1m": "+19.89%",
-      "var6m": "+18.28%",
-      "pd": "0.29%",
-      "date": "19 Oct"
+      "cds5y": 17.86,
+      "var1m": "+21.66%",
+      "var6m": "+16.43%",
+      "pd": "0.30%",
+      "date": "20 Oct"
     },
     {
       "country": "Portugal",
       "iso": "PT",
       "rating": "A+",
-      "cds5y": 23.69,
-      "var1m": "+59.85%",
-      "var6m": "+40.34%",
-      "pd": "0.39%",
-      "date": "19 Oct"
+      "cds5y": 24.37,
+      "var1m": "+64.44%",
+      "var6m": "+45.67%",
+      "pd": "0.41%",
+      "date": "20 Oct"
     },
     {
       "country": "United Kingdom",
       "iso": "GB",
       "rating": "AA",
-      "cds5y": 26.19,
-      "var1m": "+39.09%",
-      "var6m": "+37.19%",
-      "pd": "0.44%",
-      "date": "19 Oct"
-    },
-    {
-      "country": "Japan",
-      "iso": "JP",
-      "rating": "A+",
-      "cds5y": 29.44,
-      "var1m": "+27.89%",
-      "var6m": "+6.32%",
-      "pd": "0.49%",
-      "date": "19 Oct"
+      "cds5y": 25.62,
+      "var1m": "+36.06%",
+      "var6m": "+34.21%",
+      "pd": "0.43%",
+      "date": "20 Oct"
     },
     {
       "country": "Spain",
       "iso": "ES",
       "rating": "A+",
-      "cds5y": 29.45,
-      "var1m": "+77.73%",
-      "var6m": "+69.94%",
+      "cds5y": 29.14,
+      "var1m": "+75.86%",
+      "var6m": "+68.15%",
       "pd": "0.49%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
-      "country": "Belgium",
-      "iso": "BE",
-      "rating": "AA-",
-      "cds5y": 32.5,
-      "var1m": "+79.06%",
-      "var6m": "+79.06%",
-      "pd": "0.54%",
-      "date": "19 Oct"
+      "country": "Japan",
+      "iso": "JP",
+      "rating": "A+",
+      "cds5y": 29.56,
+      "var1m": "+28.41%",
+      "var6m": "+9.40%",
+      "pd": "0.49%",
+      "date": "20 Oct"
     },
     {
       "country": "United States",
@@ -154,14 +144,24 @@
       "date": "19 Oct"
     },
     {
+      "country": "Belgium",
+      "iso": "BE",
+      "rating": "AA-",
+      "cds5y": 33.34,
+      "var1m": "+83.69%",
+      "var6m": "+84.10%",
+      "pd": "0.56%",
+      "date": "20 Oct"
+    },
+    {
       "country": "China",
       "iso": "CN",
       "rating": "A+",
-      "cds5y": 37.53,
-      "var1m": "+14.63%",
-      "var6m": "-11.19%",
+      "cds5y": 37.5,
+      "var1m": "+14.54%",
+      "var6m": "-11.83%",
       "pd": "0.63%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Canada",
@@ -171,17 +171,17 @@
       "var1m": "0.00%",
       "var6m": "0.00%",
       "pd": "0.66%",
-      "date": "18 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Greece",
       "iso": "GR",
       "rating": "BBB",
-      "cds5y": 46.4,
-      "var1m": "+50.21%",
-      "var6m": "+45.55%",
-      "pd": "0.77%",
-      "date": "19 Oct"
+      "cds5y": 47.9,
+      "var1m": "+55.07%",
+      "var6m": "+58.61%",
+      "pd": "0.80%",
+      "date": "20 Oct"
     },
     {
       "country": "Italy",
@@ -197,61 +197,71 @@
       "country": "France",
       "iso": "FR",
       "rating": "A+",
-      "cds5y": 79.05,
-      "var1m": "+97.82%",
-      "var6m": "+177.47%",
-      "pd": "1.32%",
-      "date": "19 Oct"
+      "cds5y": 81.81,
+      "var1m": "+104.73%",
+      "var6m": "+208.72%",
+      "pd": "1.36%",
+      "date": "20 Oct"
+    },
+    {
+      "country": "India",
+      "iso": "IN",
+      "rating": "BBB",
+      "cds5y": 87.67,
+      "var1m": "0.00%",
+      "var6m": "0.00%",
+      "pd": "1.46%",
+      "date": "20 Oct"
     },
     {
       "country": "Mexico",
       "iso": "MX",
       "rating": "BBB",
-      "cds5y": 94.68,
-      "var1m": "+19.50%",
-      "var6m": "+10.58%",
-      "pd": "1.58%",
-      "date": "19 Oct"
+      "cds5y": 95.34,
+      "var1m": "+20.61%",
+      "var6m": "+11.35%",
+      "pd": "1.59%",
+      "date": "20 Oct"
     },
     {
       "country": "Indonesia",
       "iso": "ID",
       "rating": "BBB",
-      "cds5y": 99.55,
-      "var1m": "+21.73%",
-      "var6m": "+20.96%",
-      "pd": "1.66%",
-      "date": "19 Oct"
+      "cds5y": 99.99,
+      "var1m": "+22.27%",
+      "var6m": "+22.66%",
+      "pd": "1.67%",
+      "date": "20 Oct"
     },
     {
       "country": "Brazil",
       "iso": "BR",
       "rating": "BB",
-      "cds5y": 118.44,
-      "var1m": "+5.94%",
-      "var6m": "-4.90%",
+      "cds5y": 118.42,
+      "var1m": "+5.92%",
+      "var6m": "-4.91%",
       "pd": "1.97%",
-      "date": "19 Oct"
+      "date": "20 Oct"
     },
     {
       "country": "Turkey",
       "iso": "TR",
       "rating": "BB-",
-      "cds5y": 247.33,
-      "var1m": "+6.25%",
-      "var6m": "+4.39%",
-      "pd": "4.12%",
-      "date": "19 Oct"
+      "cds5y": 248.07,
+      "var1m": "+6.57%",
+      "var6m": "+4.70%",
+      "pd": "4.13%",
+      "date": "20 Oct"
     },
     {
       "country": "Egypt",
       "iso": "EG",
       "rating": "B",
-      "cds5y": 326.0,
-      "var1m": "+18.22%",
-      "var6m": "+5.37%",
-      "pd": "5.43%",
-      "date": "19 Oct"
+      "cds5y": 336.33,
+      "var1m": "+21.97%",
+      "var6m": "+7.54%",
+      "pd": "5.61%",
+      "date": "20 Oct"
     },
     {
       "country": "Russia",
@@ -261,7 +271,7 @@
       "var1m": "0.00%",
       "var6m": "0.00%",
       "pd": "100.00%",
-      "date": "16 Oct"
+      "date": "20 Oct"
     }
   ]
 }
