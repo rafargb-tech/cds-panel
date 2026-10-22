@@ -110,6 +110,8 @@ h1 em{font-style:normal;background:linear-gradient(100deg,var(--org),var(--red))
 .histsel:focus{border-color:var(--org)}
 .hist-legend{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:2px 0 14px}
 .hist-legend>span{display:flex;align-items:center;gap:6px}
+.lg-line-solid{width:16px;height:0;border-top:2px solid var(--org);display:inline-block}
+.lg-line-dash{width:16px;height:0;border-top:2px dashed var(--org);opacity:.75;display:inline-block}
 .lg-obs,.lg-der{width:11px;height:11px;border-radius:50%;display:inline-block}
 .lg-obs{background:var(--org)}.lg-der{background:var(--bg);border:2px solid var(--org)}
 .lg-note{color:var(--faint);font-style:italic}
@@ -184,7 +186,7 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
 .ladder-legend b{color:var(--org)}
 </style></head><body><div class="wrap">
 <header><div class="brandrow">
-  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v2.1</span></span></div></div>
+  <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v2.2</span></span></div></div>
   <div class="updated" id="stamp">CARGANDO…</div></div>
   <h1 id="dstitle">CDS <em>Soberanos</em></h1>
   <p class="sub" id="dssub">Credit Default Swaps a 5 años de <span id="ncount">30</span> soberanos. El mercado le pone precio a la probabilidad de default.</p>
@@ -230,9 +232,9 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
   </div>
   <div class="card">
     <div class="card-h"><div><h3>Histórico</h3>
-      <p>Tres puntos de control por país —hace 6m, hace 1m y hoy— reconstruidos del cambio reportado, más los observados que se acumulan cada día.</p></div>
+      <p>Trayectoria del CDS 5Y: tramo reconstruido del cambio reportado (punteado) y observado diario (sólido), que se acumula desde el primer commit.</p></div>
       <select id="histsel" class="histsel"></select></div>
-    <div class="hist-legend"><span><span class="lg-obs"></span> observado</span><span><span class="lg-der"></span> reconstruido</span><span class="lg-note">la línea entre puntos reconstruidos es interpolación, no ruta diaria</span></div>
+    <div class="hist-legend"><span><span class="lg-line-solid"></span> observado</span><span><span class="lg-line-dash"></span> reconstruido</span><span class="lg-note">el tramo punteado es interpolación de los puntos reconstruidos, no ruta diaria observada</span></div>
     <div id="hist"></div>
   </div>
 </div>
@@ -376,31 +378,38 @@ function renderHistory(){
   const pts=(series[histCountry]||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));
   if(pts.length<1){el.innerHTML=`<div class="hist-empty"><div class="big">Sin datos aún</div><div>Corre el pipeline para sembrar los puntos de control.</div></div>`;return;}
   const n=pts.length;
-  const W=700,H=300,mL=52,mR=38,mT=26,mB=34,pw=W-mL-mR,ph=H-mT-mB;
-  const vs=pts.map(p=>p.v),vmin=Math.min(...vs),vmax=Math.max(...vs),pad=(vmax-vmin)*0.18||1;
-  const lo=vmin-pad,hi=vmax+pad;
-  // eje X por observación (espaciado uniforme): así los días recientes no se amontonan
+  const W=700,H=300,mL=52,mR=48,mT=26,mB=34,pw=W-mL-mR,ph=H-mT-mB;
+  const vs=pts.map(p=>p.v),vmin=Math.min(...vs),vmax=Math.max(...vs),pad=(vmax-vmin)*0.14||1;
+  const lo=vmin-pad,hi=vmax+pad, base=mT+ph;
   const X=i=>mL+(n===1?pw/2:i/(n-1)*pw);
   const Y=v=>mT+ph-(v-lo)/(hi-lo)*ph;
+  const gid='hg_'+Math.random().toString(36).slice(2,7);
   let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  svg+=`<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#EF7E49" stop-opacity="0.30"/><stop offset="100%" stop-color="#EF7E49" stop-opacity="0"/></linearGradient></defs>`;
+  // rejilla Y con min/mediana/max (los extremos ya quedan etiquetados aquí)
   [vmin,(vmin+vmax)/2,vmax].forEach(v=>{const y=Y(v);
     svg+=`<line x1="${mL}" y1="${y}" x2="${W-mR}" y2="${y}" stroke="#1f1f26" stroke-width="1"/>`;
     svg+=`<text class="dot-lab" x="${mL-8}" y="${y+3}" text-anchor="end">${v.toFixed(1)}</text>`;});
+  // área degradada SOLO bajo la parte observada
+  let firstObs=pts.findIndex(p=>p.s!=='der'); if(firstObs<0) firstObs=n-1;
+  let area=`${X(firstObs).toFixed(1)},${base.toFixed(1)}`;
+  for(let i=firstObs;i<n;i++) area+=` ${X(i).toFixed(1)},${Y(pts[i].v).toFixed(1)}`;
+  area+=` ${X(n-1).toFixed(1)},${base.toFixed(1)}`;
+  svg+=`<polygon points="${area}" fill="url(#${gid})" stroke="none"/>`;
+  // línea: punteada si algún extremo es reconstruido; sólida si ambos observados
   for(let i=1;i<n;i++){
-    const a=pts[i-1],b=pts[i],dash=(a.s==='der'&&b.s==='der')?'stroke-dasharray="5 4"':'';
-    svg+=`<line x1="${X(i-1)}" y1="${Y(a.v)}" x2="${X(i)}" y2="${Y(b.v)}" stroke="#EF7E49" stroke-width="2" ${dash}/>`;
+    const a=pts[i-1],b=pts[i],dash=(a.s==='der'||b.s==='der')?'stroke-dasharray="4 4" stroke-opacity="0.65"':'';
+    svg+=`<line x1="${X(i-1)}" y1="${Y(a.v)}" x2="${X(i)}" y2="${Y(b.v)}" stroke="#EF7E49" stroke-width="1.8" ${dash}/>`;
   }
-  // anti-colisión: etiqueta sólo si hay hueco suficiente; extremos siempre
-  const pickLabels=(gap)=>{const s=new Set([0,n-1]);let last=X(0);
-    for(let i=1;i<n-1;i++){if(X(i)-last>=gap && X(n-1)-X(i)>=gap){s.add(i);last=X(i);}}return s;};
-  const valLab=pickLabels(46), datLab=pickLabels(58);
-  pts.forEach((p,i)=>{const x=X(i),y=Y(p.v);
-    if(p.s==='der')svg+=`<circle cx="${x}" cy="${y}" r="4.5" fill="#0a0a0c" stroke="#EF7E49" stroke-width="2"/>`;
-    else svg+=`<circle cx="${x}" cy="${y}" r="4.5" fill="#EF7E49"/>`;
-    if(valLab.has(i)){const anchor=i===0?'start':(i===n-1?'end':'middle');
-      svg+=`<text class="dot-lab" x="${x}" y="${y-9}" text-anchor="${anchor}" fill="#f4f2ef">${p.v}</text>`;}
-    if(datLab.has(i)){const anchor=i===0?'start':(i===n-1?'end':'middle');
-      svg+=`<text class="dot-lab" x="${x}" y="${H-mB+16}" text-anchor="${anchor}">${shortDate(p.d)}</text>`;}});
+  // fechas adelgazadas (sin etiqueta de valor por punto)
+  const pickLabels=(gap)=>{const set=new Set([0,n-1]);let last=X(0);
+    for(let i=1;i<n-1;i++){if(X(i)-last>=gap && X(n-1)-X(i)>=gap){set.add(i);last=X(i);}}return set;};
+  pickLabels(64).forEach(i=>{const anchor=i===0?'start':(i===n-1?'end':'middle');
+    svg+=`<text class="dot-lab" x="${X(i)}" y="${H-mB+16}" text-anchor="${anchor}">${shortDate(pts[i].d)}</text>`;});
+  // último punto ● + su valor (único hito con etiqueta dentro del gráfico)
+  const last=pts[n-1];
+  svg+=`<circle cx="${X(n-1)}" cy="${Y(last.v)}" r="3.4" fill="#EF7E49"/>`;
+  svg+=`<text class="dot-lab" x="${X(n-1)+7}" y="${Y(last.v)+3}" fill="#f4f2ef">${last.v}</text>`;
   svg+=`</svg>`;
   el.innerHTML=svg;
 }
