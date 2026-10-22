@@ -128,28 +128,32 @@ def _parse_ddmon(s, ref):
     except Exception:
         return None
 
-def merge_roster(data, max_age_days=30):
-    """Roster estable: si un país no llegó hoy, se arrastra su ULTIMO registro real
-    (con su fecha original) mientras no supere max_age_days. No inventa valores;
-    el panel lo marca como 'calculado' (o) por tener fecha < la mas reciente."""
+ROSTER_FILE = "roster.json"
+
+def merge_roster(fresh, max_age_days=30):
+    """Roster PERSISTENTE: roster.json guarda el ULTIMO registro completo de cada país.
+    Cada corrida lo actualiza con los frescos de hoy y reconstruye el snapshot = todos los
+    del roster con fecha <= max_age_days. Así un país que se cae del feed se sigue mostrando
+    con su último dato real (el panel lo marca (o) por fecha < la más reciente); si supera
+    30 días, se da de baja. No inventa valores."""
     ref = datetime.now(timezone.utc).date()
-    today_names = {d["country"] for d in data}
-    prev = []
-    if os.path.exists("sovereign_cds.json"):
+    roster = {}
+    if os.path.exists(ROSTER_FILE):
         try:
-            prev = json.load(open("sovereign_cds.json", encoding="utf-8")).get("data", [])
+            roster = json.load(open(ROSTER_FILE, encoding="utf-8"))
         except Exception:
-            prev = []
-    carried = 0
-    for pr in prev:
-        if pr.get("country") in today_names:
-            continue
-        pdte = _parse_ddmon(pr.get("date", ""), ref)
-        if pdte is None or (ref - pdte).days > max_age_days:
-            continue                     # demasiado viejo -> se considera dado de baja
-        data.append(pr); carried += 1
-    data.sort(key=lambda x: x["cds5y"])
-    return data, carried
+            roster = {}
+    for r in fresh:                                    # refresca con lo de hoy
+        roster[r["country"]] = r
+    out, kept = [], {}
+    for country, rec in roster.items():
+        dte = _parse_ddmon(rec.get("date", ""), ref)
+        if dte is None or (ref - dte).days > max_age_days:
+            continue                                   # >30 días -> baja del roster
+        out.append(rec); kept[country] = rec
+    json.dump(kept, open(ROSTER_FILE, "w", encoding="utf-8"), ensure_ascii=False)
+    out.sort(key=lambda x: x["cds5y"])
+    return out, len(out) - len(fresh)
 
 def main():
     fresh = parse(fetch())
