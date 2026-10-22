@@ -178,6 +178,10 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
   .idx-grid{grid-template-columns:1fr}
   .dsbtn{padding:9px 14px;font-size:13px}
 }
+.row.stale{opacity:.58}
+.stale-dot{color:var(--faint);font-family:var(--mono);font-size:11px}
+.ladder-legend{font-size:11px;color:var(--faint);margin:2px 0 10px;padding:0 14px}
+.ladder-legend b{color:var(--org)}
 </style></head><body><div class="wrap">
 <header><div class="brandrow">
   <div class="brand"><div class="mark">R</div><div><b>SoyRGB</b><span>Panel de mercado · Renta fija · <span style="color:var(--org);font-weight:600">v2.0</span></span></div></div>
@@ -207,6 +211,7 @@ footer{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display
   </div>
   <div class="ladder-head"><div>#</div><div>País</div><div class="h-bar">Escala de riesgo</div>
     <div class="r">CDS 5Y</div><div class="r">PD *</div><div class="r h-var6">Var 1m</div><div class="r h-var6m">Var 6m</div></div>
+  <div class="ladder-legend"><b>&#9679;</b> al día &nbsp;·&nbsp; <span class="stale-dot">&#9675;</span> último dato disponible (sin cambios recientes)</div>
   <div id="ladder"></div>
 </div>
 
@@ -285,14 +290,17 @@ function sorted(){
   return a.sort(c);
 }
 function renderLadder(){
+  const fresh=freshestRank();
   $('#ladder').innerHTML = sorted().map((d,i)=>{
     const vc=c=>String(c).startsWith('-')?'dn':(String(c).startsWith('+')&&numVar(c)!==0?'up':'fl');
     const def=isDef(d)?'<span class="tag-def">DEFAULT</span>':'';
-    return `<div class="row"><div class="rank">${String(i+1).padStart(2,'0')}</div>
+    const stale=dateRank(d.date)<fresh;
+    const dot=stale?'<span class="stale-dot">○</span> ':'';
+    return `<div class="row${stale?' stale':''}"><div class="rank">${String(i+1).padStart(2,'0')}</div>
       <div class="ctry"><span class="flag">${flag(d.iso)}</span><span class="cn">${d.country}</span>
       <span class="rate ${rateClass(d.rating)}">${d.rating}</span></div>
       <div class="barcell"><div class="bartrack"><div class="barfill" data-w="${barPct(d)}" style="background:${barColor(d)}"></div></div></div>
-      <div class="cds">${d.cds5y.toLocaleString('en',{maximumFractionDigits:2})}<small> bps</small></div>
+      <div class="cds">${dot}${d.cds5y.toLocaleString('en',{maximumFractionDigits:2})}<small> bps</small></div>
       <div class="pd">${d.pd}</div><div class="var var6 ${vc(d.var1m)}">${d.var1m}</div><div class="var var6mcell ${vc(d.var6m)}">${d.var6m}</div>${def}</div>`;
   }).join('');
   requestAnimationFrame(()=>document.querySelectorAll('#ladder .barfill').forEach((el,i)=>setTimeout(()=>el.style.width=el.dataset.w+'%',i*12)));
@@ -408,9 +416,13 @@ function stats(){
     <div class="stat"><div class="k">Más seguro</div><div class="v small">${flag(safe.iso)} ${safe.country}</div><div class="n">${safe.cds5y} bps</div></div>
     <div class="stat"><div class="k">Mayor riesgo *</div><div class="v small">${flag(risk.iso)} ${risk.country}</div><div class="n">${risk.cds5y.toLocaleString('en')} bps</div></div>`;
 }
+const MES_EN={Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
+function dateRank(s){if(!s)return -1;const p=String(s).trim().split(' ');return (MES_EN[p[1]]||0)*100+(+p[0]||0);}
+function freshestRank(){let b=-1;for(const r of DATA){const k=dateRank(r.date);if(k>b)b=k;}return b;}
+function freshestLabel(){let b=-1,l=null;for(const r of DATA){const k=dateRank(r.date);if(k>b){b=k;l=r.date;}}return l;}
 function stamp(){
-  const d=DATA[0]?.date?DATA[0].date+' 2026':'—';
-  $('#stamp').innerHTML=`${LIVE?'<span class="live">● EN VIVO</span>':'SNAPSHOT'} · <b>${d}</b>`;
+  const d=freshestLabel();
+  $('#stamp').innerHTML=`${LIVE?'<span class="live">● EN VIVO</span>':'SNAPSHOT'} · <b>${d?d+' 2026':'—'}</b>`;
 }
 function renderAll(){ renderLadder(); renderDiverging(); renderScatter(); renderHistory(); }
 

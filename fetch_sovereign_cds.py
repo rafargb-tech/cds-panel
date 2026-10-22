@@ -11,7 +11,7 @@ Escribe:
   history.json        -> serie historica que se acumula dia a dia (por pais)
 """
 import json, re, csv, sys, os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 
 try:
     import requests
@@ -113,16 +113,56 @@ def update_history(data, today):
     return sum(len(v) for v in hist["series"].values())
 
 
+_MONTHS_EN = {m: i for i, m in enumerate(
+    ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], 1)}
+
+def _parse_ddmon(s, ref):
+    """'20 Oct' -> date, usando el año de ref (corrige frontera de año)."""
+    try:
+        day, mon = str(s).strip().split()
+        mo = _MONTHS_EN[mon[:3].title()]
+        d = date(ref.year, mo, int(day))
+        if (d - ref).days > 300:        # cayó en el futuro -> año anterior
+            d = date(ref.year - 1, mo, int(day))
+        return d
+    except Exception:
+        return None
+
+def merge_roster(data, max_age_days=30):
+    """Roster estable: si un país no llegó hoy, se arrastra su ULTIMO registro real
+    (con su fecha original) mientras no supere max_age_days. No inventa valores;
+    el panel lo marca como 'calculado' (o) por tener fecha < la mas reciente."""
+    ref = datetime.now(timezone.utc).date()
+    today_names = {d["country"] for d in data}
+    prev = []
+    if os.path.exists("sovereign_cds.json"):
+        try:
+            prev = json.load(open("sovereign_cds.json", encoding="utf-8")).get("data", [])
+        except Exception:
+            prev = []
+    carried = 0
+    for pr in prev:
+        if pr.get("country") in today_names:
+            continue
+        pdte = _parse_ddmon(pr.get("date", ""), ref)
+        if pdte is None or (ref - pdte).days > max_age_days:
+            continue                     # demasiado viejo -> se considera dado de baja
+        data.append(pr); carried += 1
+    data.sort(key=lambda x: x["cds5y"])
+    return data, carried
+
 def main():
-    data = parse(fetch())
+    fresh = parse(fetch())
     now = datetime.now(timezone.utc)
-    doc = {"fetched_utc": now.isoformat(), "source": ORIGIN, "count": len(data), "data": data}
+    total = update_history(fresh, now.date())          # histórico SOLO con observaciones frescas
+    data, carried = merge_roster(list(fresh))          # snapshot = fresco + arrastrados
+    doc = {"fetched_utc": now.isoformat(), "source": ORIGIN,
+           "count": len(data), "fresh": len(fresh), "carried": carried, "data": data}
     json.dump(doc, open("sovereign_cds.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
     with open("sovereign_cds.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(data[0].keys()))
         w.writeheader(); w.writerows(data)
-    total = update_history(data, now.date())
-    print(f"OK - {len(data)} soberanos - {now.isoformat()} - historia: {total} puntos")
+    print(f"OK - {len(fresh)} frescos + {carried} arrastrados = {len(data)} - historia: {total} puntos")
 
 if __name__ == "__main__":
     main()
