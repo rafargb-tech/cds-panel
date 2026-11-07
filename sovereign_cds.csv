@@ -1,31 +1,31 @@
 country,iso,rating,cds5y,var1m,var6m,pd,date
 Switzerland,CH,AAA,8.0,0.00%,-0.12%,0.13%,4 Nov
-Sweden,SE,AAA,9.78,+2.19%,+31.98%,0.16%,6 Nov
-Denmark,DK,AAA,10.1,+1.61%,+20.81%,0.17%,6 Nov
-Germany,DE,AAA,11.85,-7.06%,+37.79%,0.20%,6 Nov
-Netherlands,NL,AAA,13.36,+0.83%,+60.58%,0.22%,6 Nov
-Finland,FI,AA+,14.6,+3.40%,+19.28%,0.24%,6 Nov
+Sweden,SE,AAA,9.88,+0.82%,+29.15%,0.16%,7 Nov
+Denmark,DK,AAA,10.22,+1.19%,+18.15%,0.17%,7 Nov
+Germany,DE,AAA,12.65,-2.47%,+53.89%,0.21%,7 Nov
+Netherlands,NL,AAA,13.41,-3.25%,+67.83%,0.22%,7 Nov
+Finland,FI,AA+,15.26,+5.90%,+23.96%,0.25%,7 Nov
 Australia,AU,AAA,16.16,+1.38%,+11.83%,0.27%,5 Nov
-Ireland,IE,AA+,16.76,-14.84%,+15.99%,0.28%,6 Nov
-Austria,AT,AA+,17.72,+2.72%,+50.17%,0.30%,6 Nov
-South Korea,KR,AA,24.1,+5.70%,-22.68%,0.40%,3 Nov
-Portugal,PT,A+,24.49,+11.12%,+59.44%,0.41%,6 Nov
-United Kingdom,GB,AA,25.83,+6.65%,+35.73%,0.43%,5 Nov
-Japan,JP,A+,28.77,-2.61%,+5.97%,0.48%,6 Nov
-Spain,ES,A+,31.09,+26.43%,+81.92%,0.52%,5 Nov
+Ireland,IE,AA+,16.87,-9.83%,+15.87%,0.28%,7 Nov
+Austria,AT,AA+,17.89,+3.47%,+57.76%,0.30%,7 Nov
+South Korea,KR,AA,22.83,-8.05%,-20.65%,0.38%,6 Nov
+Portugal,PT,A+,24.56,+4.87%,+61.26%,0.41%,7 Nov
+United Kingdom,GB,AA,25.39,+4.83%,+33.42%,0.42%,6 Nov
+Japan,JP,A+,28.77,-0.55%,+7.39%,0.48%,7 Nov
+Spain,ES,A+,30.65,+17.43%,+80.08%,0.51%,6 Nov
 United States,US,AA+,34.89,-6.56%,-0.48%,0.58%,5 Nov
-China,CN,A+,35.06,-3.39%,-16.50%,0.58%,6 Nov
-Canada,CA,AAA,39.6,0.00%,0.00%,0.66%,4 Nov
-Belgium,BE,AA-,43.46,+40.78%,+132.78%,0.72%,6 Nov
-Greece,GR,BBB,48.68,+1.18%,+51.75%,0.81%,5 Nov
+China,CN,A+,36.26,+0.33%,-12.90%,0.60%,7 Nov
+Canada,CA,AAA,39.6,0.00%,0.00%,0.66%,6 Nov
+Belgium,BE,AA-,44.38,+36.22%,+148.91%,0.74%,7 Nov
+Greece,GR,BBB,51.21,+7.43%,+58.10%,0.85%,6 Nov
 Israel,IL,A,59.57,-2.98%,-11.18%,0.99%,4 Nov
 Italy,IT,BBB+,70.35,+36.97%,+118.61%,1.17%,4 Nov
-India,IN,BBB,87.67,0.00%,0.00%,1.46%,4 Nov
-Mexico,MX,BBB,94.67,-5.02%,+7.53%,1.58%,5 Nov
-France,FR,A+,95.24,+19.42%,+234.29%,1.59%,4 Nov
-Indonesia,ID,BBB,99.44,+6.71%,+16.17%,1.66%,6 Nov
-South Africa,ZA,BB,123.38,-11.98%,-20.76%,2.06%,3 Nov
-Brazil,BR,BB,148.3,+13.02%,+24.72%,2.47%,4 Nov
-Turkey,TR,BB-,257.22,+2.03%,+4.62%,4.29%,5 Nov
-Egypt,EG,B,323.73,+3.09%,+2.80%,5.40%,6 Nov
-Russia,RU,NR,13775.17,0.00%,0.00%,100.00%,5 Nov
+India,IN,BBB,87.67,0.00%,0.00%,1.46%,6 Nov
+France,FR,A+,90.67,+12.24%,+218.25%,1.51%,6 Nov
+Mexico,MX,BBB,92.35,-7.34%,+6.10%,1.54%,6 Nov
+Indonesia,ID,BBB,102.49,+11.66%,+22.33%,1.71%,7 Nov
+South Africa,ZA,BB,121.57,-15.05%,-20.83%,2.03%,6 Nov
+Brazil,BR,BB,145.47,+11.01%,+22.84%,2.42%,6 Nov
+Turkey,TR,BB-,251.34,-1.70%,+3.33%,4.19%,6 Nov
+Egypt,EG,B,323.86,+1.94%,+5.76%,5.40%,7 Nov
+Russia,RU,NR,13775.17,0.00%,0.00%,100.00%,6 Nov
